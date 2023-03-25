@@ -1,0 +1,28 @@
+module.exports = (sequelize, Sequelize) => {
+  class BoardComment extends Sequelize.Model {
+    static initialize() {
+      return BoardComment.init(
+        {
+          boardCommentIndex: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+          },
+          content: {
+            type: Sequelize.TEXT,
+          },
+        },
+        { sequelize }
+      )
+    }
+    static associate(models) {
+      this.belongsTo(models.Board, {
+        foreignKey: 'boardIndex',
+      })
+      this.belongsTo(models.User, {
+        foreignKey: 'userId',
+      })
+    }
+  }
+  BoardComment.initialize()
+}
