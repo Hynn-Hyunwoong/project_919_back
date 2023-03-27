@@ -19,7 +19,7 @@ app.use((req, res, next, error) => {
 
 app.get('/', (req, res, ext) => {
   res.send(
-    `this is not available website, please click the This webpage ${Front}`
+    `this is not available website, please click the This webpage ${Front}, 이 메시지는 확인용입니다.`
   )
 })
 
