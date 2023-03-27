@@ -4,6 +4,7 @@ const router = require('./routes/index')
 const app = require('./app')
 const { sequelize } = require('./models')
 const axios = require('axios')
+const Front = process.env.Front || 'error'
 // const JWT = require('./lib/jwt')
 const crypto = require('crypto')
 const SALT = process.env.SALT
@@ -14,6 +15,12 @@ const SALT = process.env.SALT
 app.use((req, res, next, error) => {
   console.log(error, 'in server.js')
   res.status(500).send({ error })
+})
+
+app.get((req, res, ext) => {
+  res.send(
+    `this is not available website, please click the This webpage ${Front}`
+  )
 })
 
 app.listen(port, async () => {
