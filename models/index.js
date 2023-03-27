@@ -11,16 +11,6 @@ const sequelize = new Sequelize(
   config
 )
 
-// const test = fs
-//   .readdirSync(__dirname)
-//   .filter((file) => file.indexOf('model') !== -1)
-//   .forEach((file) => {
-//     // console.log(`Loading model from file : ${file}`)
-//     const modelFactory = require(path.join(__dirname, file))
-//     const model = modelFactory(sequelize, Sequelize)
-//     sequelize.models[model.name] = model
-//   })
-
 fs.readdirSync(__dirname)
   .filter((file) => file.indexOf('model') !== -1)
   .map((file) => {
@@ -38,7 +28,5 @@ for (const key in models) {
   if (typeof models[key].associate !== 'function') continue
   models[key].associate(models)
 }
-
-sequelize.sync({ force: true })
 
 module.exports = { sequelize, Sequelize }
