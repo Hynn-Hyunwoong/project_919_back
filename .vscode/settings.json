@@ -1,3 +1,5 @@
 {
-  "github-actions.workflows.pinned.workflows": [".github/workflows/aws.yml"]
+  "github-actions.workflows.pinned.workflows": [
+    ".github/workflows/aws.yml"
+  ]
 }
