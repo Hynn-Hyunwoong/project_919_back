@@ -17,7 +17,7 @@ app.use((req, res, next, error) => {
   res.status(500).send({ error })
 })
 
-app.get((req, res, ext) => {
+app.get('/', (req, res, ext) => {
   res.send(
     `this is not available website, please click the This webpage ${Front}`
   )
