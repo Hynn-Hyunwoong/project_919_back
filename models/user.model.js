@@ -24,10 +24,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
           },
-          email: {
-            type: Sequelize.STRING,
-            allowNull: false,
-          },
           picture: {
             type: Sequelize.STRING,
           },
@@ -68,3 +64,6 @@ module.exports = (sequelize, Sequelize) => {
   }
   User.initialize()
 }
+
+// Bulk data creation
+// Path: bulkdata/bulkdata.index.js

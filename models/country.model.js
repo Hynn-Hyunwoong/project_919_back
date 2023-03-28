@@ -6,16 +6,14 @@ module.exports = (sequelize, Sequelize) => {
           countryIndex: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
+          },
+          countryName: {
+            type: Sequelize.STRING,
+            allowNull: true,
           },
           countryCode: {
             type: Sequelize.STRING,
-          },
-          currency: {
-            type: Sequelize.STRING,
-          },
-          currencyDate: {
-            type: Sequelize.DATE,
+            allowNull: true,
           },
         },
         { sequelize }
@@ -25,7 +23,13 @@ module.exports = (sequelize, Sequelize) => {
       this.hasMany(models.ottPlan, {
         foreignKey: 'countryIndex',
       })
+      this.hasMany(models.Currency, {
+        foreignKey: 'countryIndex',
+      })
     }
   }
   Country.initialize()
 }
+
+// Bulk data creation
+// Path: bulkdata/bulkdata.index.js
