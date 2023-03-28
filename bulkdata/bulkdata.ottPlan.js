@@ -281,7 +281,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvignStandardM',
+      planName: 'TvingStandardM',
       price: 10900,
       limit: 2,
       planType: 'Mothly',

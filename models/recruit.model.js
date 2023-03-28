@@ -23,6 +23,10 @@ module.exports = (sequelize, Sequelize) => {
           endDate: {
             type: Sequelize.DATE,
           },
+          hidden: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+          },
         },
         { sequelize }
       )
