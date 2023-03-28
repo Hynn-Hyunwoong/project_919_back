@@ -26,3 +26,6 @@ module.exports = (sequelize, Sequelize) => {
   }
   BoardComment.initialize()
 }
+
+// Bulk data creation
+// Path: bulkdata/bulkdata.index.js

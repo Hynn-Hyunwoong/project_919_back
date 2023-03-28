@@ -8,14 +8,11 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
           },
-          platformId: {
-            type: Sequelize.INTEGER,
+          planName: {
+            type: Sequelize.STRING,
             allowNull: false,
           },
-          country: {
-            type: Sequelize.INTEGER,
-          },
-          planName: {
+          planType: {
             type: Sequelize.STRING,
             allowNull: false,
           },
@@ -45,3 +42,6 @@ module.exports = (sequelize, Sequelize) => {
   }
   ottPlan.initialize()
 }
+
+// Bulk data creation
+// Path: bulkdata/bulkdata.index.js

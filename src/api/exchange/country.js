@@ -2,7 +2,7 @@ const COUNTRY = {
   groupA: {
     INDIA: 'INR',
     TURKEY: 'TRY',
-    ARG: 'AUD',
+    ARG: 'ARS',
     INDONESIA: 'IDR',
     PHP: 'PHP',
   },

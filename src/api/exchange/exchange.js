@@ -18,9 +18,3 @@ const reqOption = {
 }
 
 module.exports = reqOption
-
-// axios
-//   .get(`${URL}2023-03-01?symbols=KRW&base=IDR`, reqOption)
-//   .then((response) => {
-//     console.log(response.data)
-//   })

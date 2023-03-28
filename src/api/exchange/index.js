@@ -44,3 +44,5 @@ const result = async () => {
     console.error(e) // 오류 발생시 오류출력
   }
 }
+
+result()
