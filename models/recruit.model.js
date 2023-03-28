@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
           openChatLink: {
             type: Sequelize.STRING,
           },
+          startDate: {
+            type: Sequelize.DATE,
+          },
+          endDate: {
+            type: Sequelize.DATE,
+          },
         },
         { sequelize }
       )

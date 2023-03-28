@@ -1,4 +1,7 @@
-const dotenv = require('dotenv').config()
+const path = require('path')
+const dotenv = require('dotenv').config({
+  path: path.join(__dirname, '.env'),
+})
 const port = process.env.PORT || 'error'
 const router = require('./routes/index')
 const app = require('./app')
@@ -26,5 +29,5 @@ app.get('/', (req, res, ext) => {
 app.listen(port, async () => {
   console.log(`server is running on port ${port}`)
   await sequelize.sync({ force: true })
-  console.log('database is connected')
+  console.log(`database is connected ${process.env.NODE_ENV}`)
 })
