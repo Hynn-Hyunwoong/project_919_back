@@ -8,16 +8,11 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
           },
-          userIndex: {
+          userId: {
             type: Sequelize.STRING,
-            unique: true,
             allowNull: false,
           },
           userPw: {
-            type: Sequelize.STRING,
-            allowNull: false,
-          },
-          userName: {
             type: Sequelize.STRING,
             allowNull: false,
           },

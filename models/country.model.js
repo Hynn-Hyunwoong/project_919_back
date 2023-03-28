@@ -14,6 +14,9 @@ module.exports = (sequelize, Sequelize) => {
           currency: {
             type: Sequelize.STRING,
           },
+          currencyDate: {
+            type: Sequelize.DATE,
+          },
         },
         { sequelize }
       )
