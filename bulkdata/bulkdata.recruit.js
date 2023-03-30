@@ -7,19 +7,26 @@ const recruitData = async () => {
   const now = new Date()
 
   const recruitData = []
+
   for (const user of users) {
-    for (const plan of plans) {
+    const randomPostCount = Math.floor(Math.random() * 3) + 1
+
+    for (let i = 0; i < randomPostCount; i++) {
+      const randomPlanIndex = Math.floor(Math.random() * plans.length)
+      const randomPlan = plans[randomPlanIndex]
+
       recruitData.push({
-        title: `모집게시물은 ${user.userId}님의 ${plan.planName}입니다.`,
-        content: `이 상세사항은 ${user.userId}님의 ${plan.planName}입니다.`,
+        title: `모집게시물은 ${user.userId}님의 ${randomPlan.planName}입니다.`,
+        content: `이 상세사항은 ${user.userId}님의 ${randomPlan.planName}입니다.`,
         openChatLink: `https://open.kakao.com/o/sample`,
         startDate: now,
         endDate: new Date(now.getTime() + 1000 * 60 * 60 * 24 * 7),
-        HostId: user.userId,
-        ottPlanIndex: plan.ottPlanIndex,
+        userIndex: user.userIndex,
+        ottPlanIndex: randomPlan.ottPlanIndex,
       })
     }
   }
+
   return recruitData
 }
 

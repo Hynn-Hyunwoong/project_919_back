@@ -21,7 +21,7 @@ const boardCommentData = async () => {
 
       boardcommentData.push({
         content,
-        userId: user.userIndex,
+        userIndex: user.userIndex,
         boardIndex: board.boardIndex,
       })
     }

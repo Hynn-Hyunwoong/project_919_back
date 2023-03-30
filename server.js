@@ -18,13 +18,16 @@ const {
   ottPlanData,
   boardData,
   boardCommentData,
+  recruitData,
+  recruitCommentData,
+  memberData,
+  messageData,
 } = require('./bulkdata/bulkdata.index')
 
 const {
   models: {
     Board,
     BoardComment,
-    Chat,
     Country,
     Currency,
     Member,
@@ -33,11 +36,11 @@ const {
     RecruitComment,
     User,
     ottPlan,
-    ottPlatforms,
+    ottPlatform,
   },
 } = sequelize
 
-app.use((req, res, next, error) => {
+app.use((error, req, res, next) => {
   console.log(error, 'in server.js')
   res.status(500).send({ error })
 })
@@ -50,22 +53,38 @@ app.get('/', (req, res, ext) => {
 
 const createBulkData = async (Model, data, modelName) => {
   try {
-    await Model.bulkCreate(data)
-    console.log(`Bulk ${modelName} data created successfully`)
-  } catch (e) {
-    console.log(e, `This Error Occurring in ${modelName}.bulkCreate`)
+    await Model.bulkCreate(data, {
+      raw: true,
+      ignoreDuplicates: true,
+      updateOnDuplicate: Object.keys(Model.rawAttributes),
+    })
+    console.log(`${modelName} bulk data created.`)
+  } catch (err) {
+    console.error(`Error creating ${modelName} bulk data:`, err)
   }
 }
 
-app.listen(port, async () => {
+app.listen(port, () => {
   console.log(`server is running on port ${port}`)
+})
+
+const initializeData = async () => {
   await sequelize.sync({ force: true })
   await createBulkData(User, userData, 'User')
   await createBulkData(Country, countryData, 'Country')
   await createBulkData(Currency, currencyData, 'Currency')
-  await createBulkData(ottPlatforms, ottPlatformData, 'ottPlatforms')
-  await createBulkData(ottPlan, await ottPlanData, 'ottPlan')
+  await createBulkData(ottPlatform, ottPlatformData, 'ottPlatforms')
+  await createBulkData(ottPlan, await ottPlanData(), 'ottPlan')
   await createBulkData(Board, await boardData(), 'Board')
   await createBulkData(BoardComment, await boardCommentData(), 'BoardComment')
-  console.log(`database is connected ${process.env.NODE_ENV}`)
-})
+  await createBulkData(Recruit, await recruitData(), 'Recruit')
+  await createBulkData(
+    RecruitComment,
+    await recruitCommentData(),
+    'RecruitComment'
+  )
+  await createBulkData(Member, await memberData(), 'Member')
+  await createBulkData(Message, await messageData(), 'Message')
+  console.log(`Database is connected ${process.env.NODE_ENV}`)
+}
+initializeData()

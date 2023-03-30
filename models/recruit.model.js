@@ -33,7 +33,8 @@ module.exports = (sequelize, Sequelize) => {
     }
     static associate(models) {
       this.belongsTo(models.User, {
-        foreignKey: 'HostId',
+        foreignKey: 'userIndex',
+        sourceKey: 'hostId',
       })
       this.belongsTo(models.ottPlan, {
         foreignKey: 'ottPlanIndex',
@@ -41,12 +42,10 @@ module.exports = (sequelize, Sequelize) => {
       this.hasMany(models.RecruitComment, {
         foreignKey: 'recruitIndex',
       })
-      this.hasMany(models.Chat, {
-        foreignKey: 'recruitIndex',
-      })
       this.belongsToMany(models.User, {
-        through: 'Member',
+        through: models.Member,
         foreignKey: 'RecruitIndex',
+        otherKey: 'UserIndex',
       })
     }
   }

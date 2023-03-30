@@ -1,17 +1,23 @@
 module.exports = (sequelize, Sequelize) => {
-  class Message extends Sequelize.Model {
+  class Member extends Sequelize.Model {
     static initialize() {
-      return Message.init(
+      return Member.init(
         {
-          messageIndex: {
+          memberIndex: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
           },
-          content: {
-            type: Sequelize.TEXT,
+          RecruitIndex: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              model: 'Recruit',
+              key: 'recruitIndex',
+            },
+            field: 'recruitIndex',
           },
-          userIndex: {
+          UserIndex: {
             type: Sequelize.INTEGER,
             allowNull: false,
             references: {
@@ -20,26 +26,21 @@ module.exports = (sequelize, Sequelize) => {
             },
             field: 'userIndex',
           },
-          recruitIndex: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-              model: 'Recruit',
-              key: 'recruitIndex',
-            },
-          },
         },
         { sequelize }
       )
     }
+
     static associate(models) {
-      this.belongsTo(models.User, {
-        foreignKey: 'userIndex',
-      })
       this.belongsTo(models.Recruit, {
-        foreignKey: 'recruitIndex',
+        foreignKey: 'RecruitIndex',
+        as: 'Recruit',
+      })
+      this.belongsTo(models.User, {
+        foreignKey: 'UserIndex',
+        as: 'User',
       })
     }
   }
-  Message.initialize()
+  Member.initialize()
 }

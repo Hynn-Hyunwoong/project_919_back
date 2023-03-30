@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
-  class ottPlatforms extends Sequelize.Model {
+  class ottPlatform extends Sequelize.Model {
     static initialize() {
-      return ottPlatforms.init(
+      return ottPlatform.init(
         {
           ottPlatformIndex: {
             type: Sequelize.INTEGER,
@@ -13,7 +13,12 @@ module.exports = (sequelize, Sequelize) => {
             unique: true,
             allowNull: false,
           },
+          Image: {
+            type: Sequelize.STRING,
+            allowNull: false,
+          },
         },
+
         { sequelize }
       )
     }
@@ -23,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
       })
     }
   }
-  ottPlatforms.initialize()
+  ottPlatform.initialize()
 }
 
 // Bulk data creation
