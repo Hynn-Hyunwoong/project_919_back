@@ -1,15 +1,18 @@
 const path = require('path')
+const fs = require('fs')
 const dotenv = require('dotenv').config({
   path: path.join(__dirname, '.env'),
 })
 const port = process.env.PORT || 'error'
-const router = require('./routes/index')
 const app = require('./app')
 const { sequelize } = require('./models')
-const axios = require('axios')
-const Front = process.env.Front || 'error'
-const crypto = require('crypto')
-const SALT = process.env.SALT
+const https = require('https')
+const privateKey = fs.readFileSync('key.pem', 'utf8')
+const certificate = fs.readFileSync('cert.pem', 'utf8')
+const credentials = { key: privateKey, cert: certificate }
+
+const httpsServer = https.createServer(credentials, app)
+
 const {
   userData,
   countryData,
@@ -40,17 +43,6 @@ const {
   },
 } = sequelize
 
-app.use((error, req, res, next) => {
-  console.log(error, 'in server.js')
-  res.status(500).send({ error })
-})
-
-app.get('/', (req, res, ext) => {
-  res.send(
-    `this is not available website, please click the This webpage ${Front}, 이 메시지는 확인용입니다. 2023-03-29`
-  )
-})
-
 const createBulkData = async (Model, data, modelName) => {
   try {
     await Model.bulkCreate(data, {
@@ -64,7 +56,7 @@ const createBulkData = async (Model, data, modelName) => {
   }
 }
 
-app.listen(port, () => {
+httpsServer.listen(port, () => {
   console.log(`server is running on port ${port}`)
 })
 
@@ -85,6 +77,8 @@ const initializeData = async () => {
   )
   await createBulkData(Member, await memberData(), 'Member')
   await createBulkData(Message, await messageData(), 'Message')
-  console.log(`Database is connected ${process.env.NODE_ENV}`)
+  console.log(
+    `Database is connected ${(process.env.NODE_ENV, process.env.PORT)}`
+  )
 }
 initializeData()
