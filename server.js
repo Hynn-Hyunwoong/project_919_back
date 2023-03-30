@@ -5,14 +5,18 @@ const dotenv = require('dotenv').config({
 })
 const port = process.env.PORT || 'error'
 const app = require('./app')
+const router = require('./routes')
 const { sequelize } = require('./models')
 const https = require('https')
-const privateKey = fs.readFileSync('key.pem', 'utf8')
-const certificate = fs.readFileSync('cert.pem', 'utf8')
+const privateKey = fs.readFileSync('localhost-key.pem', 'utf8')
+const certificate = fs.readFileSync('localhost.pem', 'utf8')
 const credentials = { key: privateKey, cert: certificate }
+const schedule = require('node-schedule')
 const todayCurrencyUpdate = require('./src/api/exchange/exchange.run')
 
 const httpsServer = https.createServer(credentials, app)
+
+app.use('/', router)
 
 const {
   userData,
@@ -81,5 +85,12 @@ const initializeData = async () => {
   console.log(
     `Database is connected ${(process.env.NODE_ENV, process.env.PORT)}`
   )
+  console.log('Scheduled Jobs:')
+  for (const jobName of Object.keys(schedule.scheduledJobs)) {
+    console.log(
+      `- ${jobName}`,
+      schedule.scheduledJobs[jobName].nextInvocation()
+    )
+  }
 }
 initializeData()
