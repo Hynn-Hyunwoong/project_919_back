@@ -20,7 +20,8 @@ module.exports = (sequelize, Sequelize) => {
         foreignKey: 'recruitIndex',
       })
       this.belongsTo(models.User, {
-        foreignKey: 'userId',
+        foreignKey: 'userIndex',
+        sourceKey: 'userIndex',
       })
     }
   }

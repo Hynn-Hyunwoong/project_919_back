@@ -1,9 +1,9 @@
 const { sequelize } = require('../models')
-const { ottPlatforms, Country } = sequelize.models
+const { ottPlatform, Country } = sequelize.models
 
 const getPlatforms = async (platformName) => {
-  const platform = await ottPlatforms.findOne({ where: { platformName } })
-  if (!platform) throw new Error('platform not found')
+  const platform = await ottPlatform.findOne({ where: { platformName } })
+  if (!platform) throw new Error(`Platform '${platformName}' not found`)
   return platform.ottPlatformIndex
 }
 
@@ -334,7 +334,7 @@ const ottPlanData = async () => {
   return ottPlanData
 }
 
-module.exports = ottPlanData()
+module.exports = ottPlanData
 
 // Data add Form
 //   {

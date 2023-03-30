@@ -28,9 +28,6 @@ module.exports = (sequelize, Sequelize) => {
       )
     }
     static associate(models) {
-      this.belongsTo(models.User, {
-        foreignKey: 'userIndex',
-      })
       this.hasMany(models.BoardComment, {
         foreignKey: 'boardIndex',
       })

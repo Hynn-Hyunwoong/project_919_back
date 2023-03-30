@@ -19,9 +19,6 @@ module.exports = (sequelize, Sequelize) => {
       this.belongsTo(models.Board, {
         foreignKey: 'boardIndex',
       })
-      this.belongsTo(models.User, {
-        foreignKey: 'userId',
-      })
     }
   }
   BoardComment.initialize()

@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
       )
     }
     static associate(models) {
-      this.belongsTo(models.ottPlatforms, {
+      this.belongsTo(models.ottPlatform, {
         foreignKey: 'ottPlatformIndex',
       })
       this.belongsTo(models.Country, {

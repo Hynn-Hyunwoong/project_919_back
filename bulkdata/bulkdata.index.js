@@ -1,10 +1,14 @@
-const userData = require('./bulkdata.user') // 1
-const countryData = require('./bulkdata.country') // 2
-const currencyData = require('./bulkdata.currency') // 3
-const ottPlatformData = require('./bulkdata.ottPlatform') //4
-const ottPlanData = require('./bulkdata.ottPlan') //5
-const boardData = require('./bulkdata.board') //6
-const boardCommentData = require('./bulkdata.boardComment') //7
+const userData = require('./bulkdata.user')
+const countryData = require('./bulkdata.country')
+const currencyData = require('./bulkdata.currency')
+const ottPlatformData = require('./bulkdata.ottPlatform')
+const ottPlanData = require('./bulkdata.ottPlan')
+const boardData = require('./bulkdata.board')
+const boardCommentData = require('./bulkdata.boardComment')
+const recruitData = require('./bulkdata.recruit')
+const recruitCommentData = require('./bulkdata.recruitComment')
+const memberData = require('./bulkdata.member')
+const messageData = require('./bulkdata.message')
 
 module.exports = {
   userData,
@@ -14,4 +18,8 @@ module.exports = {
   ottPlanData,
   boardData,
   boardCommentData,
+  recruitData,
+  recruitCommentData,
+  memberData,
+  messageData,
 }
