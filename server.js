@@ -10,6 +10,7 @@ const https = require('https')
 const privateKey = fs.readFileSync('key.pem', 'utf8')
 const certificate = fs.readFileSync('cert.pem', 'utf8')
 const credentials = { key: privateKey, cert: certificate }
+const todayCurrencyUpdate = require('./src/api/exchange/exchange.run')
 
 const httpsServer = https.createServer(credentials, app)
 
