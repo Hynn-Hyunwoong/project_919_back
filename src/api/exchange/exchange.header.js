@@ -13,7 +13,7 @@ const reqOption = {
     'application-type': 'x-www-form-urlencde',
   },
   URL: {
-    APIURL: process.env.CURRENCY_URI,
+    APIURL: URL,
   },
 }
 
