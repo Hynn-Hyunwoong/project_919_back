@@ -10,14 +10,8 @@ const router = require('./routes')
 const { sequelize } = require('./models')
 const https = require('https')
 const http = require('http')
-const privateKey = fs.readFileSync('localhost-key.pem', 'utf8')
-const certificate = fs.readFileSync('localhost.pem', 'utf8')
-const credentials = { key: privateKey, cert: certificate }
 const schedule = require('node-schedule')
 const todayCurrencyUpdate = require('./src/api/exchange/exchange.run')
-
-const httpServer = http.createServer(app)
-const httpsServer = https.createServer(credentials, app)
 
 app.use('/', router)
 
@@ -64,13 +58,22 @@ const createBulkData = async (Model, data, modelName) => {
   }
 }
 
-httpServer.listen(httpport, () => {
-  console.log(`http server is running on port ${httpport}`)
-})
+const useHttps = process.env.USE_HTTPS === 'true'
 
-httpsServer.listen(httpsport, () => {
-  console.log(`https server is running on port ${httpsport}`)
-})
+if (useHttps) {
+  const privateKey = fs.readFileSync('localhost-key.pem', 'utf8')
+  const certificate = fs.readFileSync('localhost.pem', 'utf8')
+  const credentials = { key: privateKey, cert: certificate }
+  const httpsServer = https.createServer(credentials, app)
+  httpsServer.listen(httpsport, () => {
+    console.log(`HTTPS server is running on port ${httpsport}`)
+  })
+} else {
+  const httpServer = http.createServer(app)
+  httpServer.listen(httpport, () => {
+    console.log(`HTTP server is running on port ${httpport}`)
+  })
+}
 
 const initializeData = async () => {
   await sequelize.sync({ force: true })
@@ -90,7 +93,7 @@ const initializeData = async () => {
   await createBulkData(Member, await memberData(), 'Member')
   await createBulkData(Message, await messageData(), 'Message')
   console.log(
-    `Database is connected ${(process.env.NODE_ENV, httpport, httpsport)}`
+    `Database is connected ${process.env.NODE_ENV}, HTTPS:${process.env.USE_HTTPS}, }`
   )
   console.log('Scheduled Jobs:')
   for (const jobName of Object.keys(schedule.scheduledJobs)) {
