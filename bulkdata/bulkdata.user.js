@@ -8,7 +8,7 @@ const hash = crypto.createHmac('sha256', SALT).update(password).digest('hex')
 const userData = []
 for (let i = 01; i <= 20; i++) {
   userData.push({
-    userId: `user${i}@.user.com`,
+    userId: `user${i}@user.com`,
     userPw: hash,
     userNick: `userNick${i}`,
     phone: `0101234123${i}`,
