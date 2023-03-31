@@ -63,7 +63,7 @@ const messageData = async () => {
     console.log('Message data:', messageData.length)
     return messageData
   } catch (e) {
-    console.log(e)
+    console.log(e, 'messageData error')
     return []
   }
 }

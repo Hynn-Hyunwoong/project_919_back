@@ -6,7 +6,7 @@ const dotenv = require('dotenv').config({
 const httpport = process.env.HTTPPORT || 'error'
 const httpsport = process.env.HTTPSPORT || 'error'
 const app = require('./app')
-const router = require('./routes/index.route')
+const router = require('./routes')
 const { sequelize } = require('./models')
 const https = require('https')
 const http = require('http')
@@ -93,7 +93,7 @@ const initializeData = async () => {
   // await createBulkData(Member, await memberData(), 'Member')
   // await createBulkData(Message, await messageData(), 'Message')
   console.log(
-    `Database is connected ${process.env.NODE_ENV}, HTTPS:${process.env.USE_HTTPS}, }`
+    `Database is connected ${process.env.NODE_ENV}, HTTPS:${process.env.USE_HTTPS}`
   )
   console.log('Scheduled Jobs:')
   for (const jobName of Object.keys(schedule.scheduledJobs)) {
