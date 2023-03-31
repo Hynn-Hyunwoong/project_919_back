@@ -9,10 +9,8 @@ const authenticateToken = (req, res, next) => {
   try {
     const decoded = jwt.Verify(token)
     req.user = decoded
-    console.log(token)
     next()
   } catch (e) {
-    console.log(token)
     console.log(`This error occurring in authenticateToken: ${e}`)
     res.sendStatus(403)
   }

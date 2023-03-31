@@ -1,10 +1,5 @@
 {
   "github-actions.workflows.pinned.workflows": [
     ".github/workflows/aws.yml"
-  ],
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#06342A",
-    "titleBar.activeBackground": "#08493A",
-    "titleBar.activeForeground": "#EFFDFA"
-  }
+  ]
 }
