@@ -42,5 +42,13 @@ const config = {
       },
     },
   },
+  s3: {
+    accessKeyID: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: 'ap-northeast-2',
+    signatureVersion: 'v4',
+    bucketName: process.env.AWS_BUCKET_NAME,
+    acl: 'private',
+  },
 }
 module.exports = config
