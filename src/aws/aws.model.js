@@ -2,7 +2,6 @@ const { S3 } = require('@aws-sdk/client-s3')
 const { Config } = require('@aws-sdk/client-s3')
 const config = require('../../config').s3
 
-console.log(config)
 // AWS Configuration Update
 const awsConfig = {
   credential: {
@@ -13,7 +12,7 @@ const awsConfig = {
 }
 
 const defaultParams = {
-  Bucket: config.AWS_BUCKET_NAME,
+  Bucket: config.BucketName,
   ACL: config.ACL,
 }
 
@@ -46,6 +45,7 @@ const getFileFromS3 = async (filename) => {
     ...defaultParams,
     Key: filename,
   }
+  console.log(params)
   try {
     const data = await AWSs3.getObject(params)
     console.log('File uploaded successfully. This Message from aws.model')
