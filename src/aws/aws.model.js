@@ -1,5 +1,5 @@
-const { S3 } = require('@aws-sdk/client-s3')
-const { Config } = require('@aws-sdk/client-s3')
+const { S3, GetObjectCommand } = require('@aws-sdk/client-s3')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 const config = require('../../config').s3
 
 // AWS Configuration Update
@@ -43,7 +43,7 @@ const uploadFileToS3 = async (buffer, filename, mimetype) => {
 const getFileFromS3 = async (filename) => {
   const params = {
     ...defaultParams,
-    Key: filename,
+    Key: `project919files/${filename}`,
   }
   console.log(params)
   try {
@@ -51,6 +51,7 @@ const getFileFromS3 = async (filename) => {
     console.log('File uploaded successfully. This Message from aws.model')
     return data
   } catch (e) {
+    console.error(`Error in getFileFromS3 aws.model : ${e}`)
     console.log(
       'Error occured while trying to upload to S3 bucket. This Message from aws.model.Upload',
       e
@@ -58,17 +59,22 @@ const getFileFromS3 = async (filename) => {
     throw e
   }
 }
-// Delete File from S3
-const deleteFileFromS3 = async (filename) => {
+// SignedURL from S3
+
+const createSignedURL = async (filename) => {
   const params = {
     ...defaultParams,
-    Key: filename,
+    Key: `${filename}`,
+    Expires: 60 * 5,
   }
   try {
-    const data = await AWSs3.deleteObject(params)
-    console.log('File uploaded successfully. This Message from aws.model')
-    return data
+    const command = new GetObjectCommand(params)
+    const signedUrl = await getSignedUrl(AWSs3, command, { expiresIn: 60 * 5 })
+    console.log('Completed create Signed URL successfully : ', command)
+    console.log('Completed create Signed URL successfully : ', signedUrl)
+    return signedUrl
   } catch (e) {
+    console.error(`Error in createSignedURL aws.model : ${e}`)
     console.log(
       'Error occured while trying to upload to S3 bucket. This Message from aws.model.Upload',
       e
@@ -77,4 +83,31 @@ const deleteFileFromS3 = async (filename) => {
   }
 }
 
-module.exports = { AWSs3, uploadFileToS3, getFileFromS3, deleteFileFromS3 }
+// Delete File from S3
+const deleteFileFromS3 = async (filename) => {
+  const params = {
+    ...defaultParams,
+    Key: filename,
+  }
+  try {
+    const data = await AWSs3.deleteObject(params)
+    console.log(data)
+    console.log('File deleted successfully. This Message from aws.model')
+    return data
+  } catch (e) {
+    console.log(`Error in deleteFileFromS3 aws.model : ${e}`)
+    console.log(
+      'Error occured while trying to upload to S3 bucket. This Message from aws.model.Upload',
+      e
+    )
+    throw e
+  }
+}
+
+module.exports = {
+  AWSs3,
+  uploadFileToS3,
+  getFileFromS3,
+  deleteFileFromS3,
+  createSignedURL,
+}

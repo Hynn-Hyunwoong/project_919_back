@@ -1,7 +1,7 @@
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const config = require('../config').s3
-const { AWSs3 } = require('../src/AWS/aws.model')
+const { AWSs3 } = require('../src/aws/aws.model')
 
 const upload = multer({
   storage: multerS3({

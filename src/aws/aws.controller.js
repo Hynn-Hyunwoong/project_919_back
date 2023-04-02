@@ -1,6 +1,7 @@
 const s3Model = require('./aws.model')
 const upload = require('../../middleware/multer')
 
+// Upload
 const uploadFile = (req, res) => {
   upload.single('file')(req, res, (e) => {
     if (e) {
@@ -22,6 +23,7 @@ const uploadFile = (req, res) => {
   })
 }
 
+// Download
 const downloadFile = async (req, res) => {
   try {
     console.log('console log in req.params in AWS Controller', req.params)
@@ -44,6 +46,21 @@ const downloadFile = async (req, res) => {
   }
 }
 
+// SignedURL, V2
+const getSignedUrl = async (req, res) => {
+  try {
+    const objectKey = req.query.objectKey
+    const signedUrl = await s3Model.createSignedURL(objectKey)
+    console.log('signedFilename : ', objectKey)
+    console.log('signedUrl : ', signedUrl)
+    res.status(200).json({ signedUrl })
+  } catch (e) {
+    console.log(`This Message from getSignedUrl in aws controller: ${e}`)
+    res.status(500).json({ error: e })
+  }
+}
+
+// Delete
 const deleteFile = async (req, res) => {
   try {
     const filename = req.params.filename
@@ -61,4 +78,5 @@ module.exports = {
   uploadFile,
   downloadFile,
   deleteFile,
+  getSignedUrl,
 }

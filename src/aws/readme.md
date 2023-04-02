@@ -16,4 +16,18 @@
 }
 ```
 
-## GET IMAGE
+## GET(DOWNLOAD)
+
+### req
+
+https://127.0.0.1:3000/aws/download/project919files/1680432528191-TvingLogo.png
+
+### res
+
+downloaded
+
+## DELETE
+
+### req
+
+### res
