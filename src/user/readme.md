@@ -23,6 +23,7 @@
 ### req
 
 ```json
+요청은 form-data 로
 {
   "userId": "test@user.com",
   "userPw": "123412342",

@@ -1,3 +1,6 @@
+const { AWSs3 } = require('../aws/aws.model')
+const config = require('../../config').s3
+
 class userController {
   constructor({ userService }) {
     this.userService = userService
@@ -35,14 +38,18 @@ class userController {
         userPw,
         userNick,
         phone,
-        picture,
         verified,
         phoneVerificationCode,
         phoneVerificationExpiry,
       } = req.body
+      const picture = req.file ? req.file.key : null
       console.log(
         req.body,
         'this is req.body in tagged on user.controller.userAdd'
+      )
+      console.log(
+        req.file,
+        'this ins req.file in tagged on user.controller.userAdd'
       )
       const user = await this.userService.userAdd({
         userId,
@@ -95,17 +102,48 @@ class userController {
       next(e)
     }
   }
+
+  async getProfilePicture(req, res, next) {
+    try {
+      const { userId } = req.user
+      const user = await this.userService.getUserInfo({ userId })
+      if (!user.picture) {
+        res.status(404).json({ message: '사진이 없습니다.' })
+      }
+
+      const params = {
+        Bucket: config.BucketName,
+        Key: user.picture,
+        Expires: 60 * 20,
+      }
+
+      AWSs3.createSignedURL('getObject', params, (e, url) => {
+        if (e) {
+          console.log(`This error is createSignedURL IN user.controller`)
+          next(e)
+          return
+        }
+        res.status(200).json({ url })
+      })
+      res.status(201).json(updateUser)
+    } catch (e) {
+      console.log(
+        `This error occurring in Controller in getProfilePicture method: ${e}`
+      )
+      next(e)
+    }
+  }
   async userUpdate(req, res, next) {
     try {
       const { userId } = req.user
       const userData = req.body
-      if (!userData.currentPw) {
-        return res.status(400).json({ message: '비밀번호를 입력해주세요.' })
-      }
+      const picture = req.file ? req.file.key : null
+      const user = await this.userService.getUserInfo({ userId })
       const updateUser = await this.userService.userUpdate({
         userId,
         currentPw: userData.currentPw,
-        userData,
+        userData: { ...userData },
+        picture: picture || user.picture,
       })
       res.status(201).json(updateUser)
     } catch (e) {

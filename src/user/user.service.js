@@ -36,7 +36,7 @@ class userService {
     userPw,
     userNick,
     phone,
-    filename: picture,
+    picture,
     verified,
     phoneVerificationCode,
     phoneVerificationExpiry,
@@ -97,16 +97,16 @@ class userService {
     }
   }
   // user 정보 수정
-  async userUpdate({ userId, currentPw, userData }) {
+  async userUpdate({ userId, currentPw, userData, picture }) {
     try {
-      const user = await this.userRepository.getUserById({ userId })
+      const user = await this.userRepository.getUserInfo({ userId })
       const currentPwHash = this.crypto
         .createHmac('sha256', SALT)
         .update(currentPw)
         .digest('hex')
 
       if (user.userPw !== currentPwHash) {
-        throw new Error('Incorrect current password')
+        throw new Error('비밀번호가 일치하지 않습니다.')
       }
 
       if (userData.newPassword) {
@@ -116,13 +116,16 @@ class userService {
           .digest('hex')
         delete userData.newPassword
       }
+      if (picture) {
+        userData.picture = picture
+      }
 
-      const userUpdate = await this.userRepository.userUpdate({
+      const updateUser = await this.userRepository.userUpdate({
         userId,
         userData,
       })
-      console.log(`success userUpdate: ${userUpdate}`)
-      return userUpdate, { message: 'success user Updated' }
+      console.log('Sucess userUpdate in userService : ', updateUser)
+      return updateUser, { message: '회원정보가 수정되었습니다.' }
     } catch (e) {
       console.log(`This error occurring in Service in userUpdate method: ${e}`)
       throw new Error(e)
