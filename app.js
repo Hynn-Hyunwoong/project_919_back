@@ -16,13 +16,10 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
-app.use((req, res, next, error) => {
+app.use((error, req, res, next) => {
   const statusCode = error.statusCode || 500
-  if (statusCode >= 400) {
-    console.log(error.message, 'In app.js')
-    return res.status(statusCode).send({ error })
-  }
-  res.status(500).send(error.message)
+  console.log(error.message, 'in app.js')
+  res.status(statusCode).send({ message: error.message })
 })
 
 module.exports = app

@@ -30,6 +30,7 @@ class userService {
       throw new Error(e)
     }
   }
+
   // User가입
   async userAdd({
     userId,
