@@ -6,6 +6,11 @@ const smsVerificationInstance = new SMSVerification()
 router.post('/sendsms', (req, res) =>
   smsVerificationInstance.sendVerificationSMS(req, res)
 )
+
+router.post('/verifycode', (req, res) =>
+  smsVerificationInstance.verifyUser(req, res)
+)
+
 router.get('/messageid/:requestId', (req, res) =>
   smsVerificationInstance.getMessageId(req, res)
 )

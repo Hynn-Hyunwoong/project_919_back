@@ -13,7 +13,8 @@ class sendSMS {
     const method = httpMethod
     const space = ' '
     const newLine = '\n'
-    const url2 = `/sms/v2/services/${config.serviceId}/messages${queryParams}`
+    const url2 =
+      urlPath || `/sms/v2/services/${config.serviceId}/messages${queryParams}`
     const accessKey = this.config.AccessKeyID
 
     const hmac = CryptoJS.algo.HMAC.create(
@@ -102,10 +103,11 @@ class sendSMS {
 
   async getMessageContent(messageId) {
     const urlPath = `/sms/v2/services/${this.config.serviceId}/messages/${messageId}`
-    const { signature, timestamp } = this.makeSignature('GET', urlPath)
+    const { signature, timestamp } = this.makeSignature('GET', '', urlPath)
     console.log(`signature in getMessage : `, signature)
     console.log(`timestamp in getMessage : `, timestamp)
-    const url = `${this.config.sendUrl}${urlPath}`
+    const url = `${this.config.sendUrl}/services/${this.config.serviceId}/messages/${messageId}`
+    console.log(`url is getMeesageContent: ${url}`)
     const headers = {
       'Content-Type': 'application/json; charset=utf-8',
       'x-ncp-iam-access-key': this.config.AccessKeyID,
