@@ -18,6 +18,7 @@ class userController {
       next(e)
     }
   }
+  // Phone중복체크
   async checkPhone(req, res, next) {
     try {
       const { phone } = req.body
@@ -30,6 +31,7 @@ class userController {
       next(e)
     }
   }
+
   // user가입
   async userAdd(req, res, next) {
     try {
