@@ -48,10 +48,12 @@ class SMSVerification {
       const messageContent = await this.sendSMSInstance.getMessageContent(
         messageId
       )
-      console.log(`messageContent in getMessageContent ${messageContent}`)
+      console.log(
+        `messageContent in getMessageContent ${JSON.stringify(messageContent)}`
+      )
       const regex = /\[(\d{6})\]/g
       console.log(`regex in getMessageContent ${regex}`)
-      const found = regex.exec(messageContent.content)
+      const found = regex.exec(messageContent.messages[0].content)
       console.log(`found in getMessageContent ${found}`)
       const sentVerificationCode = found ? found[1] : null
       console.log(
@@ -59,7 +61,34 @@ class SMSVerification {
       )
       res.status(200).json({ sentVerificationCode })
     } catch (e) {
-      console.log(`This error occurring in getMessageContent method: ${e}`)
+      console.log(
+        `This error occurring in getMessageContent method: ${e.message}`
+      )
+      res.status(500).json({ response: false, message: 'SMS sending failed.' })
+    }
+  }
+  async verifyUser(req, res) {
+    try {
+      const { requestId, userInputCode } = req.body
+      const messageId = await this.sendSMSInstance.getMessageId(requestId)
+      const messageContent = await this.sendSMSInstance.getMessageContent(
+        messageId
+      )
+      const regex = /\[(\d{6})\]/g
+      const found = regex.exec(messageContent.messages[0].content)
+      const sentVerificationCode = found ? found[1] : null
+
+      if (sentVerificationCode === userInputCode) {
+        res
+          .status(200)
+          .json({ response: true, message: '인증번호가 확인되었습니다.' })
+      } else {
+        res
+          .status(200)
+          .json({ response: false, message: '인증번호가 일치하지 않습니다.' })
+      }
+    } catch (e) {
+      console.log(`This error occurring in verifyUser method: ${e}`)
       res.status(500).json({ response: false, message: 'SMS sending failed.' })
     }
   }
