@@ -6,7 +6,9 @@ class userController {
   async userIdChecker(req, res, next) {
     try {
       const { userId } = req.body
-      const user = await this.userService.userIdChecker({ userId })
+      const user = await this.userService.userIdChecker({
+        userId: userId.value,
+      })
       res.status(201).json(user)
     } catch (e) {
       console.log(
@@ -44,17 +46,17 @@ class userController {
         req.body,
         'this is req.body in tagged on user.controller.userAdd'
       )
-      const user = await this.userService.userAdd({
-        userId,
-        userPw,
-        userNick,
-        phone,
-        picture,
-        verified,
-        phoneVerificationCode,
-        phoneVerificationExpiry,
-      })
-      res.status(201).json(user)
+      // const user = await this.userService.userAdd({
+      //   userId: userId.value,
+      //   userPw: userPw.value,
+      //   userNick: userNick.value,
+      //   phone: phone.value,
+      //   picture: picture.value,
+      //   verified,
+      //   phoneVerificationCode,
+      //   phoneVerificationExpiry,
+      // })
+      // res.status(201).json(user)
     } catch (e) {
       console.log(`This error occurring in Controller in userAdd method: ${e}`)
       next(e)
