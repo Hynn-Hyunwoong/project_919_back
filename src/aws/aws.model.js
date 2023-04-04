@@ -29,7 +29,7 @@ const uploadFileToS3 = async (buffer, filename, mimetype) => {
   }
   try {
     const data = await AWSs3.upload(params)
-    console.log('File uploaded successfully. This Message from aws.model')
+    // console.log('File uploaded successfully. This Message from aws.model')
     return data
   } catch (e) {
     console.log(
@@ -48,7 +48,7 @@ const getFileFromS3 = async (filename) => {
   console.log(params)
   try {
     const data = await AWSs3.getObject(params)
-    console.log('File uploaded successfully. This Message from aws.model')
+    // console.log('File uploaded successfully. This Message from aws.model')
     return data
   } catch (e) {
     console.error(`Error in getFileFromS3 aws.model : ${e}`)
@@ -70,8 +70,8 @@ const createSignedURL = async (filename) => {
   try {
     const command = new GetObjectCommand(params)
     const signedUrl = await getSignedUrl(AWSs3, command, { expiresIn: 60 * 5 })
-    console.log('Completed create Signed URL successfully : ', command)
-    console.log('Completed create Signed URL successfully : ', signedUrl)
+    // console.log('Completed create Signed URL successfully : ', command)
+    // console.log('Completed create Signed URL successfully : ', signedUrl)
     return signedUrl
   } catch (e) {
     console.error(`Error in createSignedURL aws.model : ${e}`)
@@ -91,8 +91,8 @@ const deleteFileFromS3 = async (filename) => {
   }
   try {
     const data = await AWSs3.deleteObject(params)
-    console.log(data)
-    console.log('File deleted successfully. This Message from aws.model')
+    // console.log(data)
+    // console.log('File deleted successfully. This Message from aws.model')
     return data
   } catch (e) {
     console.log(`Error in deleteFileFromS3 aws.model : ${e}`)

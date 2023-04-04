@@ -76,7 +76,7 @@ if (useHttps) {
 }
 
 const initializeData = async () => {
-  // await sequelize.sync({ force: true })
+  await sequelize.sync({ force: false })
   // await createBulkData(User, userData, 'User')
   // await createBulkData(Country, countryData, 'Country')
   // await createBulkData(Currency, currencyData, 'Currency')

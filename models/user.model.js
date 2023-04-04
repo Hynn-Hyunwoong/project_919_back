@@ -11,6 +11,7 @@ module.exports = (sequelize, Sequelize) => {
           userId: {
             type: Sequelize.STRING,
             allowNull: false,
+            unique: true,
           },
           userPw: {
             type: Sequelize.STRING,
@@ -26,15 +27,6 @@ module.exports = (sequelize, Sequelize) => {
           },
           picture: {
             type: Sequelize.STRING,
-          },
-          verified: {
-            type: Sequelize.BOOLEAN,
-          },
-          phoneVerificationCode: {
-            type: Sequelize.STRING,
-          },
-          phoneVerificationExpiry: {
-            type: Sequelize.DATE,
           },
         },
         { sequelize }

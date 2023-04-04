@@ -12,6 +12,7 @@ class userService {
   async userIdChecker({ userId }) {
     try {
       const user = await this.userRepository.userIdChecker({ userId })
+      console.log('test by service : ', user)
       return user ? { isAvailable: false } : { isAvailable: true }
     } catch (e) {
       console.log(
