@@ -49,5 +49,17 @@ const config = {
     BucketName: process.env.AWS_BUCKET_NAME,
     ACL: 'private',
   },
+  sens: {
+    AccessKeyID: process.env.naverAccessKey,
+    SecretAccessKey: process.env.naverSecretKey,
+    serviceId: process.env.naverSENSServiceID,
+    sendUrl: process.env.naverSENSsendURL,
+    from: process.env.naverSENSNumber,
+  },
+  naver: {
+    clientId: process.env.naverClientID,
+    clientSecret: process.env.naverClientSecret,
+    callbackUrl: process.env.naverCallbackURL,
+  },
 }
 module.exports = config

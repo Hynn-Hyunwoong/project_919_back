@@ -51,6 +51,8 @@ class userRepository {
     }
   }
 
+  // User 로그인
+
   async userLogin({ userId, userPw }) {
     try {
       const user = await this.User.findOne({
@@ -108,18 +110,16 @@ class userRepository {
   // User 정보 수정
   async userUpdate({ userId, userData }) {
     try {
-      const [updateRowCount, updateRows] = await this.User.update(userData, {
-        where: {
-          userId,
-        },
-        raw: true,
+      const updateResult = await this.User.update(userData, {
+        where: { userId },
         returning: true,
+        row: true,
       })
 
-      if (updateRowCount === 0) {
-        throw new Error('User not found in Repository')
+      if (updateResult[0] === 0) {
+        throw new Error('User not found')
       }
-      return updateRows[0]
+      return updateResult[1][0]
     } catch (e) {
       console.log(
         `This error occurring in Repository in userUpdate method: ${e}`
