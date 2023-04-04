@@ -129,3 +129,5 @@ yarn-error.log*
 *.env
 package-lock.json
 .vscode/
+
+eunji.md
