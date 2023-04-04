@@ -46,7 +46,7 @@ class sendSMS {
       'x-ncp-apigw-timestamp': timestamp,
       'x-ncp-apigw-signature-v2': signature,
     }
-    console.log('header : ', headers)
+    // console.log('header : ', headers)
 
     const smsPayload = {
       type: 'SMS',
@@ -72,11 +72,11 @@ class sendSMS {
   async getMessageId(requestId) {
     const queryParams = `?requestId=${requestId}`
     const { signature, timestamp } = this.makeSignature('GET', queryParams)
-    console.log(
-      `requestId in getMessageId test getMesageId for requestId ${signature} `
-    )
+    // console.log(
+    //   `requestId in getMessageId test getMesageId for requestId ${signature} `
+    // )
     const url = `${this.config.sendUrl}/services/${this.config.serviceId}/messages?requestId=${requestId}`
-    console.log(url)
+    // console.log(url)
     const headers = {
       'Content-Type': 'application/json; charset=utf-8',
       'x-ncp-iam-access-key': this.config.AccessKeyID,
@@ -85,15 +85,15 @@ class sendSMS {
     }
     try {
       const response = await axios.get(url, { headers })
-      console.log(`response in getMessageId ${JSON.stringify(response.data)}`)
+      // console.log(`response in getMessageId ${JSON.stringify(response.data)}`)
       const messages = response.data.messages
-      console.log(`message in getMessageId ${JSON.stringify(messages)}`)
+      // console.log(`message in getMessageId ${JSON.stringify(messages)}`)
       const message = messages.find(
         (message) => message.requestId === requestId
       )
-      console.log(`message in getMessageId ${JSON.stringify(message)}`)
+      // console.log(`message in getMessageId ${JSON.stringify(message)}`)
       const messageId = message ? message.messageId : null
-      console.log(`messageId in getMessageId ${JSON.stringify(messageId)}`)
+      // console.log(`messageId in getMessageId ${JSON.stringify(messageId)}`)
       return messageId
     } catch (e) {
       console.log('Error details:', e.response ? e.response.data : e.message)
@@ -104,10 +104,10 @@ class sendSMS {
   async getMessageContent(messageId) {
     const urlPath = `/sms/v2/services/${this.config.serviceId}/messages/${messageId}`
     const { signature, timestamp } = this.makeSignature('GET', '', urlPath)
-    console.log(`signature in getMessage : `, signature)
-    console.log(`timestamp in getMessage : `, timestamp)
+    // console.log(`signature in getMessage : `, signature)
+    // console.log(`timestamp in getMessage : `, timestamp)
     const url = `${this.config.sendUrl}/services/${this.config.serviceId}/messages/${messageId}`
-    console.log(`url is getMeesageContent: ${url}`)
+    // console.log(`url is getMeesageContent: ${url}`)
     const headers = {
       'Content-Type': 'application/json; charset=utf-8',
       'x-ncp-iam-access-key': this.config.AccessKeyID,
@@ -116,7 +116,7 @@ class sendSMS {
     }
     try {
       const response = await axios.get(url, { headers })
-      console.log(`Reponse data in getMessage : `, response.data)
+      // console.log(`Reponse data in getMessage : `, response.data)
       return response.data
     } catch (e) {
       console.log(`Error details : `, e.response.data)

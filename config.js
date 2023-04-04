@@ -56,5 +56,10 @@ const config = {
     sendUrl: process.env.naverSENSsendURL,
     from: process.env.naverSENSNumber,
   },
+  naver: {
+    clientId: process.env.naverClientID,
+    clientSecret: process.env.naverClientSecret,
+    callbackUrl: process.env.naverCallbackURL,
+  },
 }
 module.exports = config

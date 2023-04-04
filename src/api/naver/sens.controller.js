@@ -16,8 +16,8 @@ class SMSVerification {
       const { phone } = req.body
       const verificationCode = this.generateVerificationCode()
       const message = `Project919 회원가입을 위해 인증번호[${verificationCode}]를 입력하세요.`
-      console.log('Phone number:', phone)
-      console.log('Verification code:', verificationCode)
+      // console.log('Phone number:', phone)
+      // console.log('Verification code:', verificationCode)
 
       const response = await this.sendSMSInstance.sendSMS(phone, message)
 
@@ -27,7 +27,7 @@ class SMSVerification {
         messageId: response,
       })
     } catch (e) {
-      console.log(`This error occurring in sendVerificationSMS method: ${e}`)
+      // console.log(`This error occurring in sendVerificationSMS method: ${e}`)
       res.status(500).json({ response: false, message: 'SMS sending failed.' })
     }
   }
@@ -44,7 +44,7 @@ class SMSVerification {
   async getMessageContent(req, res) {
     try {
       const { messageId } = req.params
-      console.log(`messageId in getMessageContent ${messageId}`)
+      // console.log(`messageId in getMessageContent ${messageId}`)
       const messageContent = await this.sendSMSInstance.getMessageContent(
         messageId
       )
@@ -52,18 +52,18 @@ class SMSVerification {
         `messageContent in getMessageContent ${JSON.stringify(messageContent)}`
       )
       const regex = /\[(\d{6})\]/g
-      console.log(`regex in getMessageContent ${regex}`)
+      // console.log(`regex in getMessageContent ${regex}`)
       const found = regex.exec(messageContent.messages[0].content)
-      console.log(`found in getMessageContent ${found}`)
+      // console.log(`found in getMessageContent ${found}`)
       const sentVerificationCode = found ? found[1] : null
-      console.log(
-        `sentVerificationCode in getMessageContent ${sentVerificationCode} `
-      )
+      // console.log(
+      //   `sentVerificationCode in getMessageContent ${sentVerificationCode} `
+      // )
       res.status(200).json({ sentVerificationCode })
     } catch (e) {
-      console.log(
-        `This error occurring in getMessageContent method: ${e.message}`
-      )
+      // console.log(
+      //   `This error occurring in getMessageContent method: ${e.message}`
+      // )
       res.status(500).json({ response: false, message: 'SMS sending failed.' })
     }
   }
