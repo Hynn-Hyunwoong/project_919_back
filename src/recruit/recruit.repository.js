@@ -3,7 +3,7 @@ class recruitRepository {
     this.models = models
   }
 
-  async platform() {
+  async getPlatform() {
     try {
       const platformList = await this.models.ottPlatform.findAll({
         raw: true,
@@ -11,8 +11,26 @@ class recruitRepository {
       return platformList
     } catch (e) {
       console.log(
-        `This error occurring in Repository in platformName method: ${e}`
+        `This error occurring in Repository in getPlatform method: ${e}`
       )
+      throw new Error(e)
+    }
+  }
+
+  async postPlan(ottname) {
+    try {
+      const planList = await this.models.ottPlan.findAll({
+        raw: true,
+        include: [
+          {
+            model: this.models.ottPlatform,
+            where: { platformName: ottname },
+          },
+        ],
+      })
+      return planList
+    } catch (e) {
+      console.log(`This error occurring in Repository in getPlan method: ${e}`)
       throw new Error(e)
     }
   }
