@@ -9,9 +9,9 @@ class userController {
   async userIdChecker(req, res, next) {
     try {
       const { userId } = req.body
-      console.log('test by controller : ', userId)
+      console.log('test by controller : ', userId.value)
       const user = await this.userService.userIdChecker({
-        userId: userId,
+        userId: userId.value,
       })
       console.log('test', user)
       res.status(201).json(user)
