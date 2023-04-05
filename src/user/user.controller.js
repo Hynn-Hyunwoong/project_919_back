@@ -9,9 +9,11 @@ class userController {
   async userIdChecker(req, res, next) {
     try {
       const { userId } = req.body
+      console.log('test by controller : ', userId)
       const user = await this.userService.userIdChecker({
-        userId: userId.value,
+        userId: userId,
       })
+      console.log('test', user)
       res.status(201).json(user)
     } catch (e) {
       console.log(
@@ -153,6 +155,18 @@ class userController {
     } catch (e) {
       console.log(
         `This error occurring in Controller in userUpdate method: ${e}`
+      )
+      next(e)
+    }
+  }
+
+  async userLogout(req, res, next) {
+    try {
+      res.clearCookie('token')
+      res.status(200).json({ message: '로그아웃 되었습니다.' })
+    } catch (e) {
+      console.log(
+        `This error occurring in Controller in userLogout method: ${e}`
       )
       next(e)
     }

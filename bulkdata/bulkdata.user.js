@@ -12,10 +12,7 @@ for (let i = 01; i <= 20; i++) {
     userPw: hash,
     userNick: `userNick${i}`,
     phone: `0101234123${i}`,
-    verified: true,
     picture: null,
-    phoneVerificationCode: null,
-    phoneVerificationExpiry: null,
   })
 }
 

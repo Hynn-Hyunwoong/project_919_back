@@ -61,5 +61,13 @@ const config = {
     clientSecret: process.env.naverClientSecret,
     callbackUrl: process.env.naverCallbackURL,
   },
+  SALT: {
+    SALT: process.env.SALT,
+  },
+  kakao: {
+    ClientKey: process.env.kakaoRESTAPIKEY,
+    SecretKey: process.env.kakaoCLIENTSECRETKEY,
+    CallbackURL: process.env.kakaoCALLBACKURL,
+  },
 }
 module.exports = config

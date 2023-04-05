@@ -12,6 +12,8 @@ router.get('/getprofilepicture', authenticateToken, (req, res, next) =>
   Controller.getProfilePicture(req, res, next)
 )
 
+router.get('/logout', (req, res, next) => Controller.userLogout(req, res, next))
+
 //post
 router.post('/checkuserId', (req, res, next) =>
   Controller.userIdChecker(req, res, next)

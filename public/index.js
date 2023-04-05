@@ -1,4 +1,4 @@
-const filename = 'train.jpeg'
+const filename = 'cloud.jpg'
 
 const setBackgroundImage = () => {
   axios
@@ -9,8 +9,8 @@ const setBackgroundImage = () => {
       const signedUrl = response.data.signedUrl
       const backgroundImageElement = document.getElementById('background-image')
       backgroundImageElement.style.backgroundImage = `url(${signedUrl})`
-      backgroundImageElement.style.width = '100%'
-      backgroundImageElement.style.height = '100%'
+      backgroundImageElement.style.width = '1920px'
+      backgroundImageElement.style.height = '1080px'
     })
     .catch((e) => {
       console.log(e)
