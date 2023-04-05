@@ -17,7 +17,8 @@ const ottPlanData = async () => {
   const now = new Date()
   const ottPlanData = [
     {
-      planName: 'YoutubePersonalM',
+      planName: 'Youtube 개인(인도네시아)',
+      // planName: 'YoutubePersonalM',
       price: 59000,
       limit: 1,
       planType: 'monthly',
@@ -27,7 +28,8 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('IDR'),
     },
     {
-      planName: 'YoutubePersonalM',
+      planName: 'Youtube 개인(필리핀)',
+      // planName: 'YoutubePersonalM',
       price: 159,
       limit: 1,
       planType: 'monthly',
@@ -37,7 +39,8 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('PHP'),
     },
     {
-      planName: 'YoutubePersonalM',
+      planName: 'Youtube 개인(튀르키예)',
+      // planName: 'YoutubePersonalM',
       price: 29.99,
       limit: 1,
       planType: 'monthly',
@@ -47,7 +50,8 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('TRY'),
     },
     {
-      planName: 'YoutubePersonalM',
+      planName: 'Youtube 개인(아르헨티나)',
+      // planName: 'YoutubePersonalM',
       price: 389,
       limit: 1,
       planType: 'monthly',
@@ -57,7 +61,8 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('ARS'),
     },
     {
-      planName: 'YoutubePersonalM',
+      planName: 'Youtube 개인(인도)',
+      // planName: 'YoutubePersonalM',
       price: 129,
       limit: 1,
       planType: 'monthly',
@@ -67,7 +72,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('INR'),
     },
     {
-      planName: 'YoutubePersonalM',
+      planName: 'Youtube 개인(대한민국)',
       price: 10450,
       limit: 1,
       planType: 'monthly',
@@ -77,7 +82,8 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'YoutubeFamilyM',
+      planName: 'Youtube 패밀리(인도네시아)',
+      // planName: 'YoutubeFamilyM',
       price: 99000,
       limit: 4,
       planType: 'monthly',
@@ -88,7 +94,8 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'YoutubeFamilyM',
+      planName: 'Youtube 패밀리(필리핀)',
+      // planName: 'YoutubeFamilyM',
       price: 239,
       limit: 4,
       planType: 'monthly',
@@ -99,7 +106,8 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'YoutubeFamilyM',
+      // planName: 'YoutubeFamilyM',
+      planName: 'Youtube 패밀리(튀르키예)',
       price: 59.99,
       limit: 4,
       planType: 'monthly',
@@ -110,7 +118,8 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'YoutubeFamilyM',
+      planName: 'Youtube 패밀리(아르헨티나)',
+      // planName: 'YoutubeFamilyM',
       price: 699,
       limit: 4,
       planType: 'monthly',
@@ -121,7 +130,8 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'YoutubeFamilyM',
+      planName: 'Youtube 패밀리(인도)',
+      // planName: 'YoutubeFamilyM',
       price: 189,
       limit: 4,
       planType: 'monthly',
@@ -131,7 +141,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('INR'),
     },
     {
-      planName: 'NetflixAdBasicM',
+      planName: 'Netflix Ad Basic M',
       price: 5500,
       limit: 1,
       planType: 'Monthly',
@@ -141,7 +151,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'NetflixBasicM',
+      planName: 'Netflix Basic M',
       price: 9500,
       limit: 1,
       planType: 'Monthly',
@@ -151,7 +161,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'NetflixStandardM',
+      planName: 'Netflix Standard M',
       price: 13500,
       limit: 2,
       planType: 'Monthly',
@@ -161,7 +171,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'NetflixPremiumM',
+      planName: 'Netflix Premium M',
       price: 17000,
       limit: 4,
       planType: 'Monthly',
@@ -171,7 +181,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'DisneyPublicM',
+      planName: 'Disney Public M',
       price: 9900,
       limit: 4,
       planType: 'Monthly',
@@ -181,7 +191,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'DisneyPublicY',
+      planName: 'Disney Public Y',
       price: 99000,
       limit: 4,
       planType: 'Yearly',
@@ -191,7 +201,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WatchaBasicM',
+      planName: 'Watcha Basic M',
       price: 7900,
       limit: 1,
       planType: 'Monthly',
@@ -201,7 +211,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WatchaPremiumM',
+      planName: 'Watcha Premium M',
       price: 12900,
       limit: 4,
       planType: 'Monthly',
@@ -211,7 +221,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WavveBasicM',
+      planName: 'Wavve Basic M',
       price: 7900,
       limit: 1,
       planType: 'Mothly',
@@ -221,7 +231,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WavveStandardM',
+      planName: 'Wavve Standard M',
       price: 10900,
       limit: 2,
       planType: 'Mothly',
@@ -231,7 +241,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WavvePremiumM',
+      planName: 'Wavve Premium M',
       price: 13900,
       limit: 4,
       planType: 'Mothly',
@@ -241,7 +251,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WavveBasicY',
+      planName: 'Wavve Basic Y',
       price: 79000,
       limit: 1,
       planType: 'Yearly',
@@ -251,7 +261,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WavveStandardY',
+      planName: 'Wavve Standard Y',
       price: 109000,
       limit: 2,
       planType: 'Yearly',
@@ -261,7 +271,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'WavveBasicY',
+      planName: 'Wavve Basic Y',
       price: 139000,
       limit: 4,
       planType: 'Yearly',
@@ -271,7 +281,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvingBasicM',
+      planName: 'Tving Basic M',
       price: 7900,
       limit: 1,
       planType: 'Mothly',
@@ -281,7 +291,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvingStandardM',
+      planName: 'Tving Standard M',
       price: 10900,
       limit: 2,
       planType: 'Mothly',
@@ -291,7 +301,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvingPremiumM',
+      planName: 'Tving Premium M',
       price: 13900,
       limit: 4,
       planType: 'Mothly',
@@ -301,7 +311,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvingBasicY',
+      planName: 'Tving Basic Y',
       price: 71000,
       limit: 0,
       planType: 'Yearly',
@@ -311,7 +321,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvingStandardY',
+      planName: 'Tving Standard Y',
       price: 98000,
       limit: 2,
       planType: 'Yearly',
@@ -321,7 +331,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'TvingPremiumY',
+      planName: 'Tving Premium Y',
       price: 125000,
       limit: 4,
       planType: 'Yearly',
