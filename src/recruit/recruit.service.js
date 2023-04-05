@@ -5,10 +5,11 @@ class recruitService {
     this.recruitRepository = recruitRepository
   }
 
+  // 플랫폼 가져오기
   async getPlatform() {
     try {
-      const result = await this.recruitRepository.platform()
-      const platformName = result.map((v) => v.platformName)
+      const platform = await this.recruitRepository.getPlatform()
+      const platformName = platform.map((v) => v.platformName)
       // console.log(platformName)
       //[ 'Youtube', 'Netflix', 'DisneyPlus', 'Watcha', 'Tving', 'Wavve' ]
       return platformName
@@ -16,6 +17,18 @@ class recruitService {
       console.log(
         `This error occurring in Service in platfromName method: ${e}`
       )
+      throw new Error(e)
+    }
+  }
+
+  // 플랜 가져오기 -> ottname 넣어서 가져와야 해서 post로 요청했음!
+  async postPlan(ottname) {
+    try {
+      const planList = await this.recruitRepository.postPlan(ottname)
+      return planList
+    } catch (e) {
+      console.log(`This error occurring in Service in postPlan method: ${e}`)
+      throw new Error(e)
     }
   }
 

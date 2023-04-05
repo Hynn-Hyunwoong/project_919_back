@@ -8,6 +8,10 @@ router.post('/write', (req, res, next) => {
 })
 router.get('/write', (req, res, next) => Controller.getWrite(req, res, next))
 
+router.post('/write/plan', (req, res, next) =>
+  Controller.postPlan(req, res, next)
+)
+
 // router.get('/getinfo', authenticateToken, (req, res, next) =>
 //   Controller.getUserInfo(req, res, next)
 // )
