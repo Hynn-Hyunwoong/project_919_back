@@ -14,9 +14,7 @@ class recruitService {
       //[ 'Youtube', 'Netflix', 'DisneyPlus', 'Watcha', 'Tving', 'Wavve' ]
       return platformName
     } catch (e) {
-      console.log(
-        `This error occurring in Service in platfromName method: ${e}`
-      )
+      console.log(`This error occurring in Service in getPlatform method: ${e}`)
       throw new Error(e)
     }
   }
@@ -31,6 +29,46 @@ class recruitService {
       throw new Error(e)
     }
   }
+
+  // 게시물 등록하기
+  async postContent(body) {
+    try {
+      const idx = await this.recruitRepository.postContent(body)
+      return idx
+    } catch (e) {
+      console.log(`This error occurring in Service in postContent method: ${e}`)
+      throw new Error(e)
+    }
+  }
+
+  // getView
+  async getView(idx) {
+    try {
+      const getView = await this.recruitRepository.getView(idx)
+      return getView
+    } catch (e) {
+      console.log(`This error occurring in Service in getView method: ${e}`)
+      throw new Error(e)
+    }
+  }
+
+  async getList() {
+    try {
+      const getList = await this.recruitRepository.getList()
+      return getList
+    } catch (e) {
+      console.log(`This error occurring in Service in getList method: ${e}`)
+      throw new Error(e)
+    }
+  }
+
+  // async getView(query) {
+  //   try {
+  //   } catch (e) {
+  //     console.log(`This error occurring in Service in getView method: ${e}`)
+  //     throw new Error(e)
+  //   }
+  // }
 
   // // ID 중복 체크
   // async userIdChecker({ userId }) {
