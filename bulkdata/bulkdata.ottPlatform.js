@@ -4,37 +4,37 @@ const ottPlatformData = [
     platformName: 'Youtube',
     createdAt: now,
     updatedAt: now,
-    Image: '/public/img/YoutubeLogo.png',
+    Image: '/img/platformLogo/youtube.png',
   },
   {
     platformName: 'Netflix',
     createdAt: now,
     updatedAt: now,
-    Image: '/public/img/NetflixLogo.png',
+    Image: '/img/platformLogo/netflix.png',
   },
   {
     platformName: 'DisneyPlus',
     createdAt: now,
     updatedAt: now,
-    Image: '/public/img/DisneyPlusLogo.png',
+    Image: '/img/platformLogo/disney.png',
   },
   {
     platformName: 'Watcha',
     createdAt: now,
     updatedAt: now,
-    Image: '/public/img/WatchaLogo.png',
+    Image: '/img/platformLogo/watcha.png',
   },
   {
     platformName: 'Tving',
     createdAt: now,
     updatedAt: now,
-    Image: '/public/img/TvingLogo.png',
+    Image: '/img/platformLogo/tving.png',
   },
   {
     platformName: 'Wavve',
     createdAt: now,
     updatedAt: now,
-    Image: '/public/img/WavveLogo.png',
+    Image: '/img/platformLogo/wavve.png',
   },
 ]
 
