@@ -101,6 +101,27 @@ class userController {
     }
   }
 
+  // Token 검증
+  async validateToken(req, res, next) {
+    try {
+      const { userId } = req.user
+      const isValid = await this.userService.validateToken({ userId })
+
+      if (isValid) {
+        const token = await this.userService.refereshToken({ userId })
+        res.status(200).json({ valid: true, token: token })
+      } else {
+        res.clearCookie('token')
+        res.status(200).json({ valid: false })
+      }
+    } catch (e) {
+      console.log(
+        `This error occurring in Controller in validateToken method: ${e}`
+      )
+      next(e)
+    }
+  }
+
   // user정보 불러오기
   async getUserInfo(req, res, next) {
     try {

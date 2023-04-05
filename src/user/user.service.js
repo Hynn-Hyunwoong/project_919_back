@@ -88,6 +88,19 @@ class userService {
     }
   }
 
+  // Token 검증
+  async validateToken({ userId }) {
+    try {
+      const user = await this.userRepository.getUserInfo({ userId })
+      return !!user
+    } catch (e) {
+      console.log(
+        `This error occurring in Service in validateToken method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+
   // User 정보 불러오기
   async getUserInfo({ userId }) {
     try {

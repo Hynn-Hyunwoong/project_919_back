@@ -1,3 +1,7 @@
+const path = require('path')
+const dotenv = require('dotenv').config({
+  path: path.join(__dirname, '../', '../', '.env'),
+})
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
@@ -6,8 +10,7 @@ const JWT = require('../../lib/jwt')
 const crypto = require('crypto')
 const SALT = require('../../config').SALT
 const jwt = new JWT({ crypto })
-
-router.get('/auth/naver', passport.authenticate('naver'))
+const redirectPath = process.env.AXIOS_DOMAIN
 router.get('/auth/naver/callback', async (req, res, next) => {
   passport.authenticate('naver', async (e, user, info) => {
     if (e) {
@@ -20,7 +23,7 @@ router.get('/auth/naver/callback', async (req, res, next) => {
       expiresIn: '1h',
     })
     res.cookie('token', token, { httpOnly: true, secure: true })
-    res.redirect('/')
+    res.redirect(redirectPath)
   })(req, res, next)
 })
 
@@ -37,7 +40,7 @@ router.get('/auth/kakao/callback', async (req, res, next) => {
       expiresIn: '1h',
     })
     res.cookie('token', token, { httpOnly: true, secure: true })
-    res.redirect('/')
+    res.redirect(redirectPath)
   })(req, res, next)
 })
 
