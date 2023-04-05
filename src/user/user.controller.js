@@ -81,16 +81,22 @@ class userController {
         req.body,
         'this is req.body in tagged on user.controller.userLogin'
       )
-      const { token, user } = await this.userService.userLogin({
+      const { token, user, e } = await this.userService.userLogin({
         userId,
         userPw,
       })
       console.log(token, user, 'this is token and user in tagged on userLogin')
-      res.status(201).json({ token, user })
+
+      if (e) {
+        res.status(401).json({ message: '로그인에 실패했습니다.' })
+      } else {
+        res.status(201).json({ token, user, message: '로그인에 성공했습니다.' })
+      }
     } catch (e) {
       console.log(
         `This error occurring in Controller in userLogin method: ${e}`
       )
+      res.status(500).json({ message: '로그인에 실패했습니다.' })
       next(e)
     }
   }
