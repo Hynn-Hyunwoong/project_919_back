@@ -101,6 +101,26 @@ class userService {
     }
   }
 
+  // Token 갱신
+  async refreshToken({ userId }) {
+    try {
+      const user = await this.userRepository.getUserInfo({ userId })
+      if (!user)
+        throw new Error(
+          '로그인 유효시간이 만료되었습니다. 다시 로그인해주세요.'
+        )
+
+      const tokenPayload = { userId: user.userId }
+      const token = this.jwt.Sign(tokenPayload, SALT, { expiresIn: 30 * 60 })
+      return token
+    } catch (e) {
+      console.log(
+        `This error occurring in Service in refreshToken method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+
   // User 정보 불러오기
   async getUserInfo({ userId }) {
     try {
