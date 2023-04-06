@@ -42,6 +42,7 @@ const {
     User,
     ottPlan,
     ottPlatform,
+    Like,
   },
 } = sequelize
 
@@ -92,9 +93,9 @@ const initializeData = async () => {
   // )
   // await createBulkData(Member, await memberData(), 'Member')
   // await createBulkData(Message, await messageData(), 'Message')
-  // console.log(
-  //   `Database is connected ${process.env.NODE_ENV}, HTTPS:${process.env.USE_HTTPS}`
-  // )
+  console.log(
+    `Database is connected ${process.env.NODE_ENV}, HTTPS:${process.env.USE_HTTPS}`
+  )
   console.log('Scheduled Jobs:')
   for (const jobName of Object.keys(schedule.scheduledJobs)) {
     console.log(
