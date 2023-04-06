@@ -15,6 +15,9 @@ router.post('/write/plan', (req, res, next) =>
 )
 
 router.get('/view/:id', (req, res, next) => Controller.getView(req, res, next))
+router.post('/view/:id', (req, res, next) =>
+  Controller.addMember(req, res, next)
+)
 
 router.get('/list', (req, res, next) => Controller.getList(req, res, next))
 
