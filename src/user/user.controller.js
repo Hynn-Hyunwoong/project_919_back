@@ -108,7 +108,7 @@ class userController {
       const isValid = await this.userService.validateToken({ userId })
 
       if (isValid) {
-        const token = await this.userService.refereshToken({ userId })
+        const token = await this.userService.refreshToken({ userId })
         res.status(200).json({ valid: true, token: token })
       } else {
         res.clearCookie('token')
@@ -190,6 +190,7 @@ class userController {
   async userLogout(req, res, next) {
     try {
       res.clearCookie('token')
+      console.log('로그아웃 되었습니다.')
       res.status(200).json({ message: '로그아웃 되었습니다.' })
     } catch (e) {
       console.log(

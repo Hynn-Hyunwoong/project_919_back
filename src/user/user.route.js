@@ -25,6 +25,9 @@ router.post('/useradd', upload.single('picture'), (req, res, next) =>
   Controller.userAdd(req, res, next)
 )
 router.post('/login', (req, res, next) => Controller.userLogin(req, res, next))
+router.post('/verifytoken', authenticateToken, (req, res, next) =>
+  Controller.validateToken(req, res, next)
+)
 
 //put
 router.put(
