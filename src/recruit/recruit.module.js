@@ -1,6 +1,6 @@
 const {
   sequelize: {
-    models: { User, ottPlatform, ottPlan, Recruit, Country, Member },
+    models: { User, ottPlatform, ottPlan, Recruit, Country, Member, Currency },
   },
 } = require('../../models')
 
@@ -17,6 +17,7 @@ const recruitRepository = new RecruitRepository({
   Recruit,
   Country,
   Member,
+  Currency,
   sequelize,
   Sequelize,
 })

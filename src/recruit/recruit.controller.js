@@ -35,7 +35,7 @@ class recruitController {
     }
   }
 
-  // getView
+  // view
   async getView(req, res, next) {
     try {
       const idx = req.params.id
@@ -46,6 +46,21 @@ class recruitController {
     }
   }
 
+  // 멤버 추가
+  async addMember(req, res, nex) {
+    try {
+      const idx = req.params.id
+      const token = req.body.token
+      const addMember = await this.recruitService.addMember(idx, token)
+      res.json(`hi`)
+    } catch (e) {
+      console.log(
+        `This error occurring in Controller in addMember method: ${e}`
+      )
+    }
+  }
+
+  // list
   async getList(req, res, next) {
     try {
       const list = await this.recruitService.getList()
@@ -54,6 +69,8 @@ class recruitController {
       console.log(`This error occurring in Controller in getList method: ${e}`)
     }
   }
+
+  //
 
   // // ID중복체크
   // async userIdChecker(req, res, next) {

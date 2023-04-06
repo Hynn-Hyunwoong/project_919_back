@@ -8,6 +8,7 @@ class recruitRepository {
     Recruit,
     Country,
     Member,
+    Currency,
     sequelize,
     Sequelize,
   }) {
@@ -18,6 +19,7 @@ class recruitRepository {
     this.Country = Country
     this.sequelize = sequelize
     this.Sequelize = Sequelize
+    this.Currency = Currency
   }
 
   async getPlatform() {
@@ -42,6 +44,15 @@ class recruitRepository {
           {
             model: this.ottPlatform,
             where: { platformName: ottname },
+          },
+          {
+            model: this.Country,
+            attributes: ['countryCode'],
+            include: {
+              model: this.Currency,
+              attributes: ['currencyValue'],
+              where: { currencyDate: '2023-04-05 09:00:00' },
+            },
           },
         ],
       })
@@ -87,6 +98,10 @@ class recruitRepository {
               {
                 model: this.Country,
                 attributes: ['countryCode'],
+                include: {
+                  model: this.Currency,
+                  attributes: ['currencyValue'],
+                },
                 required: false,
               },
             ],
@@ -106,6 +121,7 @@ class recruitRepository {
         raw: true,
         limit: 10,
         attributes: ['recruitIndex', 'title', 'hidden'],
+        order: [['recruitIndex', 'DESC']],
         include: [
           { model: this.User, attributes: ['userNick'], required: false },
           {
@@ -121,12 +137,19 @@ class recruitRepository {
               {
                 model: this.Country,
                 attributes: ['countryCode'],
+                include: {
+                  model: this.Currency,
+                  attributes: ['currencyValue'],
+                  // order: [['id', 'DESC']],
+                  // limit: 1,
+                },
                 required: false,
               },
             ],
           },
         ],
       })
+      console.log(result.length)
       return result
     } catch (e) {
       console.log(`This error occurring in Service in getView method: ${e}`)

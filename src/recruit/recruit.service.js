@@ -41,7 +41,7 @@ class recruitService {
     }
   }
 
-  // getView
+  // View
   async getView(idx) {
     try {
       const getView = await this.recruitRepository.getView(idx)
@@ -52,6 +52,15 @@ class recruitService {
     }
   }
 
+  async addMember(idx, token) {
+    try {
+    } catch (e) {
+      console.log(`This error occurring in Service in getView method: ${e}`)
+      throw new Error(e)
+    }
+  }
+
+  // list
   async getList() {
     try {
       const getList = await this.recruitRepository.getList()
