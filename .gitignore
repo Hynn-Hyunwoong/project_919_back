@@ -131,3 +131,5 @@ package-lock.json
 .vscode/
 
 eunji.md
+
+settings.json
