@@ -102,9 +102,13 @@ class userController {
   }
 
   // Token 검증
+  // Token 검증
   async validateToken(req, res, next) {
     try {
       const { userId } = req.user
+      console.log(
+        `Token validation request for userId: ${userId} at ${new Date().toISOString()}`
+      ) // 로그 추가
       const isValid = await this.userService.validateToken({ userId })
 
       if (isValid) {
