@@ -69,5 +69,8 @@ const config = {
     SecretKey: process.env.kakaoCLIENTSECRETKEY,
     CallbackURL: process.env.kakaoCALLBACKURL,
   },
+  domain: {
+    domain: process.env.DOMAIN,
+  },
 }
 module.exports = config

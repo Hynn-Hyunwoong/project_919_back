@@ -24,6 +24,8 @@ const allowedOrigins = [
   'https://localhost:3000',
   'https://127.0.0.1:3000',
   'https://www.hynn.kr',
+  'https://127.0.0.1:3005',
+  'https://localhost:3005',
 ]
 
 app.use(cookieParser())
