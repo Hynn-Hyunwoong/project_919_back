@@ -11,6 +11,7 @@ const dotenv = require('dotenv').config({
   path: path.join(__dirname, '.env'),
 })
 const SALT = process.env.SALT
+const allowURL = process.env.AXIOS_DOMAIN
 const passport = require('passport')
 const { sequelize } = require('./models')
 require('./src/auth/auth.sns.controller')
@@ -19,8 +20,25 @@ const {
   models: { User },
 } = sequelize
 
+const allowedOrigins = [
+  'https://localhost:3000',
+  'https://127.0.0.1:3000',
+  'https://www.hynn.kr',
+]
+
 app.use(cookieParser())
-app.use(cors({ origin: true, credentials: true }))
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
+    credentials: true,
+  })
+)
 app.use(express.json({ limit: '50mb' }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
