@@ -11,6 +11,7 @@ const crypto = require('crypto')
 const SALT = require('../../config').SALT
 const jwt = new JWT({ crypto })
 const redirectPath = process.env.AXIOS_DOMAIN
+router.get('/auth/naver', passport.authenticate('naver'))
 router.get('/auth/naver/callback', async (req, res, next) => {
   passport.authenticate('naver', async (e, user, info) => {
     if (e) {
@@ -23,7 +24,7 @@ router.get('/auth/naver/callback', async (req, res, next) => {
       expiresIn: '1h',
     })
     res.cookie('token', token, { httpOnly: true, secure: true })
-    res.redirect(redirectPath)
+    res.redirect(`${redirectPath}?token=${token}`)
   })(req, res, next)
 })
 
@@ -40,7 +41,7 @@ router.get('/auth/kakao/callback', async (req, res, next) => {
       expiresIn: '1h',
     })
     res.cookie('token', token, { httpOnly: true, secure: true })
-    res.redirect(redirectPath)
+    res.redirect(`${redirectPath}?token=${token}`)
   })(req, res, next)
 })
 

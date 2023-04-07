@@ -42,6 +42,7 @@ const {
     User,
     ottPlan,
     ottPlatform,
+    Like,
   },
 } = sequelize
 

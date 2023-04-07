@@ -48,6 +48,9 @@ module.exports = (sequelize, Sequelize) => {
       this.hasMany(models.BoardComment, {
         foreignKey: 'userIndex',
       })
+      this.hasMany(models.Like, {
+        foreignKey: 'userIndex',
+      })
       this.belongsToMany(models.Recruit, {
         through: models.Member,
         foreignKey: 'UserIndex',

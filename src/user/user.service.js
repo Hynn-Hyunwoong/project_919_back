@@ -78,9 +78,13 @@ class userService {
         )
         throw new Error('User not found')
       }
-      const token = this.jwt.Sign({ userId: user.userId }, SALT, {
-        expiresIn: 30 * 60,
-      })
+      const token = this.jwt.Sign(
+        { userId: user.userId, userNick: user.userNick },
+        SALT,
+        {
+          expiresIn: 30 * 60,
+        }
+      )
       return { token, user }
     } catch (e) {
       console.log(`This error occurring in Service in userLogin method: ${e}`)
