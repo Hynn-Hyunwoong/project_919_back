@@ -21,4 +21,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Currency.initialize()
+  return Currency
 }

@@ -43,4 +43,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Member.initialize()
+  return Member
 }

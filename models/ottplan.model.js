@@ -31,6 +31,7 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       this.belongsTo(models.ottPlatform, {
         foreignKey: 'ottPlatformIndex',
+        as: 'platform',
       })
       this.belongsTo(models.Country, {
         foreignKey: 'countryIndex',
@@ -41,7 +42,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   ottPlan.initialize()
+  return ottPlan
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

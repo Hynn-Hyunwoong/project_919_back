@@ -34,7 +34,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Board.initalize()
+  return Board
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

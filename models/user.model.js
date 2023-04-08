@@ -59,7 +59,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   User.initialize()
+  return User
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

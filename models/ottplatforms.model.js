@@ -25,11 +25,10 @@ module.exports = (sequelize, Sequelize) => {
     static associate(models) {
       this.hasMany(models.ottPlan, {
         foreignKey: 'ottPlatformIndex',
+        as: 'ottPlans',
       })
     }
   }
   ottPlatform.initialize()
+  return ottPlatform
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

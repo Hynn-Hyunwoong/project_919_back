@@ -58,4 +58,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Recruit.initialize()
+  return Recruit
 }

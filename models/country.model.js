@@ -30,4 +30,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Country.initialize()
+  return Country
 }

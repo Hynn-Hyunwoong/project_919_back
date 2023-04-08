@@ -42,4 +42,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Message.initialize()
+  return Message
 }
