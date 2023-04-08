@@ -22,6 +22,3 @@ module.exports = (sequelize, Sequelize) => {
   }
   Currency.initialize()
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

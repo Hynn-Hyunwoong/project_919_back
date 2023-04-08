@@ -53,8 +53,8 @@ module.exports = (sequelize, Sequelize) => {
       })
       this.belongsToMany(models.Recruit, {
         through: models.Member,
-        foreignKey: 'UserIndex',
-        otherKey: 'RecruitIndex',
+        foreignKey: 'userIndex',
+        otherKey: 'recruitIndex',
       })
     }
   }

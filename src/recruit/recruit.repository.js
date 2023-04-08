@@ -1,179 +1,80 @@
-const { json } = require('sequelize')
+const { Op } = require('sequelize')
 
-class recruitRepository {
+class RecruitRepository {
   constructor({
-    User,
-    ottPlatform,
-    ottPlan,
     Recruit,
+    User,
+    Like,
+    ottPlatfrom,
+    ottPlan,
+    Currency,
     Country,
     Member,
-    Currency,
     sequelize,
     Sequelize,
   }) {
-    this.User = User
-    this.ottPlan = ottPlan
-    this.ottPlatform = ottPlatform
     this.Recruit = Recruit
+    this.User = User
+    this.Like = Like
+    this.ottPlatfrom = ottPlatfrom
+    this.ottPlan = ottPlan
     this.Country = Country
+    this.Currency = Currency
+    this.Member = Member
     this.sequelize = sequelize
     this.Sequelize = Sequelize
-    this.Currency = Currency
   }
 
-  async getPlatform() {
+  async getAllRecruit() {
     try {
-      const platformList = await this.ottPlatform.findAll({
-        raw: true,
+      const response = await this.Recruit.findAll({
+        include: [
+          {
+            model: this.User,
+            attributes: ['userNick', 'picture'],
+          },
+          {
+            model: this.Like,
+            attributes: ['userIndex', 'recruitIndex'],
+          },
+          {
+            model: this.ottPlan,
+            attributes: [
+              'planName',
+              'price',
+              'countryIndex',
+              [
+                this.sequelize.literal(
+                  `(SELECT Currencies.currencyValue FROM Currency AS Currencies WHERE Currencies.countryIndex = ottPlan.countryIndex AND Currencies.currencyDate = (SELECT MAX(C2.currencyDate) FROM Currency AS C2 WHERE C2.countryIndex = Currencies.countryIndex))`
+                ),
+                'currencyValue',
+              ],
+            ],
+            include: [
+              {
+                model: this.Country,
+                attributes: ['countryName'],
+                where: { countryName: { [Op.ne]: 'Korea' } },
+              },
+            ],
+          },
+          {
+            model: this.User,
+            as: 'Members',
+            attributes: ['userNick', 'picture'],
+            through: { attributes: [] },
+          },
+        ],
       })
-      return platformList
+      console.log(`This Processing in the recruit.repository: `, response)
+      return response
     } catch (e) {
       console.log(
-        `This error occurring in Repository in getPlatform method: ${e}`
+        `This error occurring recrut.repository.js in getAllRecruit method: ${e}`
       )
       throw new Error(e)
     }
   }
-
-  async postPlan(ottname) {
-    try {
-      const planList = await this.ottPlan.findAll({
-        raw: true,
-        include: [
-          {
-            model: this.ottPlatform,
-            where: { platformName: ottname },
-          },
-          {
-            model: this.Country,
-            attributes: ['countryCode'],
-            include: {
-              model: this.Currency,
-              attributes: ['currencyValue'],
-              where: { currencyDate: '2023-04-05 09:00:00' },
-            },
-          },
-        ],
-      })
-      return planList
-    } catch (e) {
-      console.log(`This error occurring in Repository in getPlan method: ${e}`)
-      throw new Error(e)
-    }
-  }
-
-  async postContent(body) {
-    try {
-      const { dataValues } = await this.Recruit.create(body, {
-        raw: true,
-      })
-      return dataValues.recruitIndex
-    } catch (e) {
-      console.log(
-        `This error occurring in Repository in postContent method: ${e}`
-      )
-      throw new Error(e)
-    }
-  }
-
-  async getView(idx) {
-    try {
-      console.log(idx)
-      const result = await this.Recruit.findOne({
-        raw: true,
-        where: { recruitIndex: `${idx}` },
-        include: [
-          { model: this.User, attributes: ['userNick'], required: false },
-          {
-            model: this.ottPlan,
-            attributes: ['planName', 'price', 'limit'],
-            required: false,
-            include: [
-              {
-                model: this.ottPlatform,
-                attributes: ['platformName', 'Image'],
-                required: false,
-              },
-              {
-                model: this.Country,
-                attributes: ['countryCode'],
-                include: {
-                  model: this.Currency,
-                  attributes: ['currencyValue'],
-                },
-                required: false,
-              },
-            ],
-          },
-        ],
-      })
-      return result
-    } catch (e) {
-      console.log(`This error occurring in Service in getView method: ${e}`)
-      throw new Error(e)
-    }
-  }
-
-  async getList() {
-    try {
-      const result = await this.Recruit.findAll({
-        raw: true,
-        limit: 10,
-        attributes: ['recruitIndex', 'title', 'hidden'],
-        order: [['recruitIndex', 'DESC']],
-        include: [
-          { model: this.User, attributes: ['userNick'], required: false },
-          {
-            model: this.ottPlan,
-            attributes: ['planName', 'price', 'limit'],
-            required: false,
-            include: [
-              {
-                model: this.ottPlatform,
-                attributes: ['Image'],
-                required: false,
-              },
-              {
-                model: this.Country,
-                attributes: ['countryCode'],
-                include: {
-                  model: this.Currency,
-                  attributes: ['currencyValue'],
-                  // order: [['id', 'DESC']],
-                  // limit: 1,
-                },
-                required: false,
-              },
-            ],
-          },
-        ],
-      })
-      console.log(result.length)
-      return result
-    } catch (e) {
-      console.log(`This error occurring in Service in getView method: ${e}`)
-      throw new Error(e)
-    }
-  }
-
-  // // ID 중복 체크
-  // async userIdChecker({ userId }) {
-  //   try {
-  //     const user = await this.User.findOne({
-  //       raw: true,
-  //       where: {
-  //         userId,
-  //       },
-  //     })
-  //     return user
-  //   } catch (e) {
-  //     console.log(
-  //       `This error occurring in Repository in userIdChecker method: ${e}`
-  //     )
-  //     throw new Error(e)
-  //   }
-  // }
 }
 
-module.exports = recruitRepository
+module.exports = RecruitRepository

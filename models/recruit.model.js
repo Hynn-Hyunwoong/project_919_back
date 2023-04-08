@@ -45,10 +45,15 @@ module.exports = (sequelize, Sequelize) => {
       this.hasMany(models.Like, {
         foreignKey: 'recruitIndex',
       })
+      this.hasMany(models.Member, {
+        foreignKey: 'recruitIndex',
+        as: 'MemberRelation',
+      })
       this.belongsToMany(models.User, {
         through: models.Member,
-        foreignKey: 'RecruitIndex',
-        otherKey: 'UserIndex',
+        foreignKey: 'recruitIndex',
+        otherKey: 'userIndex',
+        as: 'Members',
       })
     }
   }
