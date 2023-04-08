@@ -35,11 +35,24 @@ class RecruitController {
     }
   }
   // 플랫폼별 게시물 가져오기
-  async getAllRecruit(req, res, next) {
+  async getPlatformRecruit(req, res, next) {
     try {
       const { platformName } = req.params
       console.log('this code is paltformname in controller : ', platformName)
-      const response = await this.recruitService.getAllRecruit(platformName)
+      const response = await this.recruitService.getPlatformRecruit(
+        platformName
+      )
+      res.status(200).json(response)
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
+  // 게시물 등록하기
+  async createRecruit(req, res, next) {
+    try {
+      const data = req.body
+      const response = await this.recruitService.createRecruit(data)
       res.status(200).json(response)
     } catch (e) {
       console.log(e)

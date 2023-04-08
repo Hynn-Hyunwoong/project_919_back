@@ -24,9 +24,31 @@ class RecruitRepository {
     this.sequelize = sequelize
     this.Sequelize = Sequelize
   }
+  // endDate 기준으로 hidden 처리
+  async updateHiddenStatus() {
+    try {
+      await this.Recruit.update(
+        { hidden: true },
+        {
+          where: {
+            endDate: {
+              [this.Sequelize.Op.lt]: new Date(),
+            },
+            hidden: false,
+          },
+        }
+      )
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in updateHiddenStatus method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
   // 전체 게시물 가져오기
   async getAllRecruit() {
     try {
+      await this.updateHiddenStatus()
       const response = await this.Recruit.findAll({
         include: [
           {
@@ -92,6 +114,7 @@ class RecruitRepository {
   // 1게시물 가져오기
   async getOneRecruit(recruitIndex) {
     try {
+      await this.updateHiddenStatus()
       const response = await this.Recruit.findOne({
         where: { recruitIndex: recruitIndex },
         include: [
@@ -156,6 +179,7 @@ class RecruitRepository {
   // hidden true or false 게시물 가져오기
   async getHiddenRecruit(hidden) {
     try {
+      await this.updateHiddenStatus()
       let where = {}
       if (hidden === 'true') {
         where.hidden = true
@@ -230,8 +254,9 @@ class RecruitRepository {
     }
   }
   // Platform 형식에 맞는 게시물 리스트 출력
-  async getAllRecruit(platformName) {
+  async getPlatformRecruit(platformName) {
     try {
+      await this.updateHiddenStatus()
       const platformRanges = {
         Youtube: [1, 11],
         Netflix: [12, 15],
@@ -307,6 +332,37 @@ class RecruitRepository {
     } catch (e) {
       console.log(
         `This error occurring recruit.repository.js in getAllRecruit method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+  // 게시물 작성하기
+  async createRecruit(data) {
+    try {
+      await this.updateHiddenStatus()
+      const {
+        title,
+        content,
+        openChatLink,
+        startDate,
+        endDate,
+        ottPlanIndex,
+        userIndex,
+      } = data
+      const response = await this.Recruit.create({
+        title,
+        content,
+        openChatLink,
+        startDate,
+        endDate,
+        ottPlanIndex,
+        userIndex,
+      })
+      console.log(`This Processing in the recruit.repository: `, response)
+      return response
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in createRecruit method: ${e}`
       )
       throw new Error(e)
     }

@@ -34,13 +34,27 @@ class RecruitService {
     }
   }
   // 플랫폼별 게시물 가져오기
-  async getAllRecruit(platformName) {
+  async getPlatformRecruit(platformName) {
     try {
-      const response = await this.recruitRepository.getAllRecruit(platformName)
+      const response = await this.recruitRepository.getPlatformRecruit(
+        platformName
+      )
       console.log(`this code is response in Service : `, response)
       return response
     } catch (e) {
       console.log(`this error getAllRecruit in Service : `, e)
+      throw new Error(e)
+    }
+  }
+
+  // 게시물 등록하기
+  async createRecruit(data) {
+    try {
+      const response = await this.recruitRepository.createRecruit(data)
+      console.log(`this code is response in Service : `, response)
+      return response
+    } catch (e) {
+      console.log(`this error createRecruit in Service : `, e)
       throw new Error(e)
     }
   }

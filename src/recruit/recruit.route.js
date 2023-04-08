@@ -16,8 +16,14 @@ router.get('/gethiddenrecruit/:hidden', (req, res, next) =>
   Controller.getHiddenRecruit(req, res, next)
 )
 //Platform 게시물
-router.get('/getallrecruit/:platformName', (req, res, next) =>
+router.get('/getplatformrecruit/:platformName', (req, res, next) =>
   Controller.getAllRecruit(req, res, next)
+)
+
+/* Post List */
+// 게시물 등록
+router.post('/createrecruit', (req, res, next) =>
+  Controller.createRecruit(req, res, next)
 )
 
 module.exports = router

@@ -12,7 +12,7 @@ for (let i = 01; i <= 20; i++) {
     userPw: hash,
     userNick: `userNick${i}`,
     phone: `0101234123${i}`,
-    picture: null,
+    picture: `project919files/user${i}.jpg`,
   })
 }
 
