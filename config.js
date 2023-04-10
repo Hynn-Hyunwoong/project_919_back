@@ -15,7 +15,7 @@ const config = {
         freezeTableName: true,
         timestamps: true,
       },
-      timezone: 'Asia/Seoul',
+      timezone: '+09:00',
       dialectOptions: {
         charset: 'utf8mb4',
         dateStrings: true,
@@ -34,7 +34,7 @@ const config = {
         freezeTableName: true,
         timestamps: true,
       },
-      timezone: 'Asia/Seoul',
+      timezone: '+09:00',
       dialectOptions: {
         charset: 'utf8mb4',
         dateStrings: true,

@@ -142,6 +142,7 @@ class userController {
       next(e)
     }
   }
+
   async getProfilePicture(req, res, next) {
     try {
       const { userId } = req.user
@@ -190,7 +191,6 @@ class userController {
         const signedUrl = await awsController.getSignedUrl(updateUser.picture)
         updateUser.signedUrl = signedUrl
       }
-
       res.status(201).json(updateUser)
     } catch (e) {
       console.log(

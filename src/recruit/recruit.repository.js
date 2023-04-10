@@ -1,4 +1,5 @@
 const { Op } = require('sequelize')
+const awsController = require('../aws/aws.controller')
 
 class RecruitRepository {
   constructor({
@@ -78,6 +79,12 @@ class RecruitRepository {
                 ),
                 'platformName',
               ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.Image FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformImage',
+              ],
             ],
             include: [
               {
@@ -102,6 +109,18 @@ class RecruitRepository {
           },
         ],
       })
+      for (const recruit of response) {
+        if (recruit.User.picture) {
+          recruit.User.dataValues.pictureSignedUrl =
+            await awsController.getSignedUrl(recruit.User.picture)
+        }
+        for (const member of recruit.Members) {
+          if (member.picture) {
+            member.dataValues.pictureSignedUrl =
+              await awsController.getSignedUrl(member.picture)
+          }
+        }
+      }
       console.log(`This Processing in the recruit.repository: `, response)
       return response
     } catch (e) {
@@ -111,6 +130,7 @@ class RecruitRepository {
       throw new Error(e)
     }
   }
+
   // 1게시물 가져오기
   async getOneRecruit(recruitIndex) {
     try {
@@ -144,6 +164,12 @@ class RecruitRepository {
                 ),
                 'platformName',
               ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.Image FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformImage',
+              ],
             ],
             include: [
               {
@@ -168,6 +194,17 @@ class RecruitRepository {
           },
         ],
       })
+      if (response.User.picture) {
+        response.User.dataValues.pictureSignedUrl =
+          await awsController.getSignedUrl(response.User.picture)
+      }
+      for (const member of response.Members) {
+        if (member.picture) {
+          member.dataValues.pictureSignedUrl = await awsController.getSignedUrl(
+            member.picture
+          )
+        }
+      }
       return response
     } catch (e) {
       console.log(
@@ -217,6 +254,12 @@ class RecruitRepository {
                 ),
                 'platformName',
               ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.Image FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformImage',
+              ],
             ],
             include: [
               {
@@ -241,6 +284,18 @@ class RecruitRepository {
           },
         ],
       })
+      for (const recruit of response) {
+        if (recruit.User.picture) {
+          recruit.User.dataValues.pictureSignedUrl =
+            await awsController.getSignedUrl(recruit.User.picture)
+        }
+        for (const member of recruit.Members) {
+          if (member.picture) {
+            member.dataValues.pictureSignedUrl =
+              await awsController.getSignedUrl(member.picture)
+          }
+        }
+      }
       console.log(
         `This Processing in the hidden.recruit.repository: `,
         response
@@ -297,6 +352,12 @@ class RecruitRepository {
                 ),
                 'platformName',
               ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.Image FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformImage',
+              ],
             ],
             include: [
               {
@@ -326,7 +387,18 @@ class RecruitRepository {
           },
         },
       })
-
+      for (const recruit of response) {
+        if (recruit.User.picture) {
+          recruit.User.dataValues.pictureSignedUrl =
+            await awsController.getSignedUrl(recruit.User.picture)
+        }
+        for (const member of recruit.Members) {
+          if (member.picture) {
+            member.dataValues.pictureSignedUrl =
+              await awsController.getSignedUrl(member.picture)
+          }
+        }
+      }
       console.log(`This Processing in the recruit.repository: `, response)
       return response
     } catch (e) {
