@@ -1,3 +1,5 @@
+const { where } = require('sequelize')
+
 class userRepository {
   constructor({ User, sequelize, Sequelize }) {
     this.User = User
@@ -107,19 +109,26 @@ class userRepository {
       throw new Error(e)
     }
   }
+
   // User 정보 수정
-  async userUpdate({ userId, userData }) {
+  async userUpdate({ userData }) {
+    const userIdx = userData.userIndex
     try {
       const updateResult = await this.User.update(userData, {
-        where: { userId },
+        where: { userIndex: userIdx },
         returning: true,
-        row: true,
+        raw: true,
+      })
+
+      const { userId, userNick, phone, picture } = await this.User.findOne({
+        where: { userIndex: userIdx },
+        raw: true,
       })
 
       if (updateResult[0] === 0) {
         throw new Error('User not found')
       }
-      return updateResult[1][0]
+      return { userId, userNick, phone, picture }
     } catch (e) {
       console.log(
         `This error occurring in Repository in userUpdate method: ${e}`
@@ -127,6 +136,13 @@ class userRepository {
       throw new Error(e)
     }
   }
+
+  // 좋아요 한 게시물 불러오기
+  async myLike() {}
+  // 내가 쓴 파티글 불러오기
+  async myPost() {}
+  // 내가 참여한 파티 불러오기
+  async myList() {}
 }
 
 module.exports = userRepository
