@@ -1,6 +1,15 @@
 const {
   sequelize: {
-    models: { User, ottPlatform, ottPlan, Recruit, Country, Member, Currency },
+    models: {
+      Recruit,
+      User,
+      Like,
+      ottPlatfrom,
+      ottPlan,
+      Currency,
+      Country,
+      Member,
+    },
   },
 } = require('../../models')
 
@@ -11,13 +20,14 @@ const RecruitService = require('./recruit.service')
 const RecruitController = require('./recruit.controller')
 
 const recruitRepository = new RecruitRepository({
-  User,
-  ottPlatform,
-  ottPlan,
   Recruit,
+  User,
+  Like,
+  ottPlatfrom,
+  ottPlan,
+  Currency,
   Country,
   Member,
-  Currency,
   sequelize,
   Sequelize,
 })

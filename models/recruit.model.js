@@ -30,6 +30,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         { sequelize }
       )
+      this.addHook('beforeFind', Recruit.beforeFind)
     }
     static associate(models) {
       this.belongsTo(models.User, {
@@ -45,12 +46,33 @@ module.exports = (sequelize, Sequelize) => {
       this.hasMany(models.Like, {
         foreignKey: 'recruitIndex',
       })
+      this.hasMany(models.Member, {
+        foreignKey: 'recruitIndex',
+        as: 'MemberRelation',
+      })
       this.belongsToMany(models.User, {
         through: models.Member,
-        foreignKey: 'RecruitIndex',
-        otherKey: 'UserIndex',
+        foreignKey: 'recruitIndex',
+        otherKey: 'userIndex',
+        as: 'Members',
       })
+    }
+    static beforeFind(options) {
+      options.hooks = false
+      return this.update(
+        { hidden: true },
+        {
+          where: {
+            endDate: {
+              [Sequelize.Op.lt]: new Date(),
+            },
+            hidden: false,
+          },
+          hooks: false,
+        }
+      ).then(() => options)
     }
   }
   Recruit.initialize()
+  return Recruit
 }

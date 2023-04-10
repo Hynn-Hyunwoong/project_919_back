@@ -1,90 +1,64 @@
-class recruitController {
+class RecruitController {
   constructor({ recruitService }) {
     this.recruitService = recruitService
   }
-  // 플랫폼 불러오는 컨트롤러
-  async getWrite(req, res, next) {
+  // 전체 게시물 가져오기
+  async getAllRecruit(req, res, next) {
     try {
-      const result = await this.recruitService.getPlatform()
-      res.status(201).json(result)
+      const response = await this.recruitService.getAllRecruit()
+      res.status(200).json(response)
     } catch (e) {
-      console.log(`This error occurring in Controller in getWrite method: ${e}`)
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
     }
   }
-
-  // 플랜 불러오는 컨트롤러
-  async postPlan(req, res, next) {
+  // 1게시물 가져오기
+  async getOneRecruit(req, res, next) {
     try {
-      const ottname = req.body.string
-      const result = await this.recruitService.postPlan(ottname)
-      res.status(201).json(result)
+      const { recruitIndex } = req.params
+      const response = await this.recruitService.getOneRecruit(recruitIndex)
+      res.status(200).json(response)
     } catch (e) {
-      console.log(`This error occurring in Controller in postPlan method: ${e}`)
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
     }
   }
-
-  // 게시물 insert
-  async postContent(req, res, next) {
+  // Hidden 게시물 가져오기
+  async getHiddenRecruit(req, res, next) {
     try {
-      const idx = await this.recruitService.postContent(req.body)
-      res.status(201).json(idx)
+      const { hidden } = req.params
+      const response = await this.recruitService.getHiddenRecruit(hidden)
+      res.status(200).json(response)
     } catch (e) {
-      console.log(
-        `This error occurring in Controller in postContent method: ${e}`
+      console.log(e)
+      res.status(500).json({ message: e.message || 'Internal Server Error' })
+    }
+  }
+  // 플랫폼별 게시물 가져오기
+  async getPlatformRecruit(req, res, next) {
+    try {
+      const { platformName } = req.params
+      console.log('this code is paltformname in controller : ', platformName)
+      const response = await this.recruitService.getPlatformRecruit(
+        platformName
       )
-    }
-  }
-
-  // view
-  async getView(req, res, next) {
-    try {
-      const idx = req.params.id
-      const getView = await this.recruitService.getView(idx)
-      res.status(201).json(getView)
+      res.status(200).json(response)
     } catch (e) {
-      console.log(`This error occurring in Controller in getView method: ${e}`)
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
     }
   }
-
-  // 멤버 추가
-  async addMember(req, res, nex) {
+  // 게시물 등록하기
+  async createRecruit(req, res, next) {
     try {
-      const idx = req.params.id
-      const token = req.body.token
-      const addMember = await this.recruitService.addMember(idx, token)
-      res.json(`hi`)
+      const data = req.body
+      const response = await this.recruitService.createRecruit(data)
+      res.status(200).json(response)
     } catch (e) {
-      console.log(
-        `This error occurring in Controller in addMember method: ${e}`
-      )
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
     }
   }
-
-  // list
-  async getList(req, res, next) {
-    try {
-      const list = await this.recruitService.getList()
-      return res.status(201).json(list)
-    } catch (e) {
-      console.log(`This error occurring in Controller in getList method: ${e}`)
-    }
-  }
-
-  //
-
-  // // ID중복체크
-  // async userIdChecker(req, res, next) {
-  //   try {
-  //     const { userId } = req.body
-  //     const user = await this.userService.userIdChecker({ userId })
-  //     res.status(201).json(user)
-  //   } catch (e) {
-  //     console.log(
-  //       `This error occurring in Controller in userIdChecker method: ${e}`
-  //     )
-  //     next(e)
-  //   }
-  // }
 }
 
-module.exports = recruitController
+module.exports = RecruitController

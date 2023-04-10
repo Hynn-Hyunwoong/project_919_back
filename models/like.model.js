@@ -25,4 +25,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   Like.initialize()
+  return Like
 }

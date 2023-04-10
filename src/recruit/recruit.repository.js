@@ -1,179 +1,372 @@
-const { json } = require('sequelize')
+const { Op } = require('sequelize')
 
-class recruitRepository {
+class RecruitRepository {
   constructor({
+    Recruit,
     User,
+    Like,
     ottPlatform,
     ottPlan,
-    Recruit,
+    Currency,
     Country,
     Member,
-    Currency,
     sequelize,
     Sequelize,
   }) {
-    this.User = User
-    this.ottPlan = ottPlan
-    this.ottPlatform = ottPlatform
     this.Recruit = Recruit
+    this.User = User
+    this.Like = Like
+    this.ottPlatform = ottPlatform
+    this.ottPlan = ottPlan
     this.Country = Country
+    this.Currency = Currency
+    this.Member = Member
     this.sequelize = sequelize
     this.Sequelize = Sequelize
-    this.Currency = Currency
   }
-
-  async getPlatform() {
+  // endDate 기준으로 hidden 처리
+  async updateHiddenStatus() {
     try {
-      const platformList = await this.ottPlatform.findAll({
-        raw: true,
-      })
-      return platformList
-    } catch (e) {
-      console.log(
-        `This error occurring in Repository in getPlatform method: ${e}`
-      )
-      throw new Error(e)
-    }
-  }
-
-  async postPlan(ottname) {
-    try {
-      const planList = await this.ottPlan.findAll({
-        raw: true,
-        include: [
-          {
-            model: this.ottPlatform,
-            where: { platformName: ottname },
-          },
-          {
-            model: this.Country,
-            attributes: ['countryCode'],
-            include: {
-              model: this.Currency,
-              attributes: ['currencyValue'],
-              where: { currencyDate: '2023-04-05 09:00:00' },
+      await this.Recruit.update(
+        { hidden: true },
+        {
+          where: {
+            endDate: {
+              [this.Sequelize.Op.lt]: new Date(),
             },
+            hidden: false,
           },
-        ],
-      })
-      return planList
-    } catch (e) {
-      console.log(`This error occurring in Repository in getPlan method: ${e}`)
-      throw new Error(e)
-    }
-  }
-
-  async postContent(body) {
-    try {
-      const { dataValues } = await this.Recruit.create(body, {
-        raw: true,
-      })
-      return dataValues.recruitIndex
+        }
+      )
     } catch (e) {
       console.log(
-        `This error occurring in Repository in postContent method: ${e}`
+        `This error occurring recruit.repository.js in updateHiddenStatus method: ${e}`
       )
       throw new Error(e)
     }
   }
-
-  async getView(idx) {
+  // 전체 게시물 가져오기
+  async getAllRecruit() {
     try {
-      console.log(idx)
-      const result = await this.Recruit.findOne({
-        raw: true,
-        where: { recruitIndex: `${idx}` },
+      await this.updateHiddenStatus()
+      const response = await this.Recruit.findAll({
         include: [
-          { model: this.User, attributes: ['userNick'], required: false },
+          {
+            model: this.User,
+            attributes: ['userNick', 'picture'],
+          },
+          {
+            model: this.Like,
+            attributes: ['userIndex', 'recruitIndex'],
+          },
           {
             model: this.ottPlan,
-            attributes: ['planName', 'price', 'limit'],
-            required: false,
+            attributes: [
+              'planName',
+              'price',
+              'countryIndex',
+              'ottPlatformIndex',
+              [
+                this.sequelize.literal(
+                  `(SELECT Currencies.currencyValue FROM Currency AS Currencies WHERE Currencies.countryIndex = ottPlan.countryIndex AND Currencies.currencyDate = (SELECT MAX(C2.currencyDate) FROM Currency AS C2 WHERE C2.countryIndex = Currencies.countryIndex))`
+                ),
+                'currencyValue',
+              ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.platformName FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformName',
+              ],
+            ],
             include: [
               {
-                model: this.ottPlatform,
-                attributes: ['platformName', 'Image'],
-                required: false,
-              },
-              {
                 model: this.Country,
-                attributes: ['countryCode'],
-                include: {
-                  model: this.Currency,
-                  attributes: ['currencyValue'],
-                },
+                attributes: [
+                  [
+                    this.sequelize.literal(
+                      `CASE WHEN \`ottPlan->Country\`.\`countryName\` = 'Korea' THEN NULL ELSE \`ottPlan->Country\`.\`countryName\` END`
+                    ),
+                    'countryName',
+                  ],
+                ],
                 required: false,
               },
             ],
           },
+          {
+            model: this.User,
+            as: 'Members',
+            attributes: ['userNick', 'picture'],
+            through: { attributes: [] },
+          },
         ],
       })
-      return result
+      console.log(`This Processing in the recruit.repository: `, response)
+      return response
     } catch (e) {
-      console.log(`This error occurring in Service in getView method: ${e}`)
+      console.log(
+        `This error occurring recruit.repository.js in getAllRecruit method: ${e}`
+      )
       throw new Error(e)
     }
   }
-
-  async getList() {
+  // 1게시물 가져오기
+  async getOneRecruit(recruitIndex) {
     try {
-      const result = await this.Recruit.findAll({
-        raw: true,
-        limit: 10,
-        attributes: ['recruitIndex', 'title', 'hidden'],
-        order: [['recruitIndex', 'DESC']],
+      await this.updateHiddenStatus()
+      const response = await this.Recruit.findOne({
+        where: { recruitIndex: recruitIndex },
         include: [
-          { model: this.User, attributes: ['userNick'], required: false },
+          {
+            model: this.User,
+            attributes: ['userNick', 'picture'],
+          },
+          {
+            model: this.Like,
+            attributes: ['userIndex', 'recruitIndex'],
+          },
           {
             model: this.ottPlan,
-            attributes: ['planName', 'price', 'limit'],
-            required: false,
+            attributes: [
+              'planName',
+              'price',
+              'countryIndex',
+              [
+                this.sequelize.literal(
+                  `(SELECT Currencies.currencyValue FROM Currency AS Currencies WHERE Currencies.countryIndex = ottPlan.countryIndex AND Currencies.currencyDate = (SELECT MAX(C2.currencyDate) FROM Currency AS C2 WHERE C2.countryIndex = Currencies.countryIndex))`
+                ),
+                'currencyValue',
+              ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.platformName FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformName',
+              ],
+            ],
             include: [
               {
-                model: this.ottPlatform,
-                attributes: ['Image'],
-                required: false,
-              },
-              {
                 model: this.Country,
-                attributes: ['countryCode'],
-                include: {
-                  model: this.Currency,
-                  attributes: ['currencyValue'],
-                  // order: [['id', 'DESC']],
-                  // limit: 1,
-                },
+                attributes: [
+                  [
+                    this.sequelize.literal(
+                      `CASE WHEN \`ottPlan->Country\`.\`countryName\` = 'Korea' THEN NULL ELSE \`ottPlan->Country\`.\`countryName\` END`
+                    ),
+                    'countryName',
+                  ],
+                ],
                 required: false,
               },
             ],
           },
+          {
+            model: this.User,
+            as: 'Members',
+            attributes: ['userNick', 'picture'],
+            through: { attributes: [] },
+          },
         ],
       })
-      console.log(result.length)
-      return result
+      return response
     } catch (e) {
-      console.log(`This error occurring in Service in getView method: ${e}`)
+      console.log(
+        `This error occurring recruit.repository.js in getOneRecruit method: ${e}`
+      )
       throw new Error(e)
     }
   }
+  // hidden true or false 게시물 가져오기
+  async getHiddenRecruit(hidden) {
+    try {
+      await this.updateHiddenStatus()
+      let where = {}
+      if (hidden === 'true') {
+        where.hidden = true
+      } else if (hidden === 'false') {
+        where.hidden = false
+      } else {
+        throw new Error('hidden is not true or false')
+      }
+      const response = await this.Recruit.findAll({
+        where: where,
+        include: [
+          {
+            model: this.User,
+            attributes: ['userNick', 'picture'],
+          },
+          {
+            model: this.Like,
+            attributes: ['userIndex', 'recruitIndex'],
+          },
+          {
+            model: this.ottPlan,
+            attributes: [
+              'planName',
+              'price',
+              'countryIndex',
+              [
+                this.sequelize.literal(
+                  `(SELECT Currencies.currencyValue FROM Currency AS Currencies WHERE Currencies.countryIndex = ottPlan.countryIndex AND Currencies.currencyDate = (SELECT MAX(C2.currencyDate) FROM Currency AS C2 WHERE C2.countryIndex = Currencies.countryIndex))`
+                ),
+                'currencyValue',
+              ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.platformName FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformName',
+              ],
+            ],
+            include: [
+              {
+                model: this.Country,
+                attributes: [
+                  [
+                    this.sequelize.literal(
+                      `CASE WHEN \`ottPlan->Country\`.\`countryName\` = 'Korea' THEN NULL ELSE \`ottPlan->Country\`.\`countryName\` END`
+                    ),
+                    'countryName',
+                  ],
+                ],
+                required: false,
+              },
+            ],
+          },
+          {
+            model: this.User,
+            as: 'Members',
+            attributes: ['userNick', 'picture'],
+            through: { attributes: [] },
+          },
+        ],
+      })
+      console.log(
+        `This Processing in the hidden.recruit.repository: `,
+        response
+      )
+      return response
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in getHiddenRecruit method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+  // Platform 형식에 맞는 게시물 리스트 출력
+  async getPlatformRecruit(platformName) {
+    try {
+      await this.updateHiddenStatus()
+      const platformRanges = {
+        Youtube: [1, 11],
+        Netflix: [12, 15],
+        DisneyPlus: [16, 17],
+        Watcha: [18, 19],
+        Wavve: [20, 25],
+        Tving: [26, 31],
+      }
 
-  // // ID 중복 체크
-  // async userIdChecker({ userId }) {
-  //   try {
-  //     const user = await this.User.findOne({
-  //       raw: true,
-  //       where: {
-  //         userId,
-  //       },
-  //     })
-  //     return user
-  //   } catch (e) {
-  //     console.log(
-  //       `This error occurring in Repository in userIdChecker method: ${e}`
-  //     )
-  //     throw new Error(e)
-  //   }
-  // }
+      const range = platformRanges[platformName]
+
+      const response = await this.Recruit.findAll({
+        include: [
+          {
+            model: this.User,
+            attributes: ['userNick', 'picture'],
+          },
+          {
+            model: this.Like,
+            attributes: ['userIndex', 'recruitIndex'],
+          },
+          {
+            model: this.ottPlan,
+            attributes: [
+              'planName',
+              'price',
+              'countryIndex',
+              'ottPlatformIndex',
+              [
+                this.sequelize.literal(
+                  `(SELECT Currencies.currencyValue FROM Currency AS Currencies WHERE Currencies.countryIndex = ottPlan.countryIndex AND Currencies.currencyDate = (SELECT MAX(C2.currencyDate) FROM Currency AS C2 WHERE C2.countryIndex = Currencies.countryIndex))`
+                ),
+                'currencyValue',
+              ],
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.platformName FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformName',
+              ],
+            ],
+            include: [
+              {
+                model: this.Country,
+                attributes: [
+                  [
+                    this.sequelize.literal(
+                      `CASE WHEN \`ottPlan->Country\`.\`countryName\` = 'Korea' THEN NULL ELSE \`ottPlan->Country\`.\`countryName\` END`
+                    ),
+                    'countryName',
+                  ],
+                ],
+                required: false,
+              },
+            ],
+          },
+          {
+            model: this.User,
+            as: 'Members',
+            attributes: ['userNick', 'picture'],
+            through: { attributes: [] },
+          },
+        ],
+        where: {
+          ottPlanIndex: {
+            [Op.between]: [range[0], range[1]],
+          },
+        },
+      })
+
+      console.log(`This Processing in the recruit.repository: `, response)
+      return response
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in getAllRecruit method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+  // 게시물 작성하기
+  async createRecruit(data) {
+    try {
+      await this.updateHiddenStatus()
+      const {
+        title,
+        content,
+        openChatLink,
+        startDate,
+        endDate,
+        ottPlanIndex,
+        userIndex,
+      } = data
+      const response = await this.Recruit.create({
+        title,
+        content,
+        openChatLink,
+        startDate,
+        endDate,
+        ottPlanIndex,
+        userIndex,
+      })
+      console.log(`This Processing in the recruit.repository: `, response)
+      return response
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in createRecruit method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
 }
 
-module.exports = recruitRepository
+module.exports = RecruitRepository

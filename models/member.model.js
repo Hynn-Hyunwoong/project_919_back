@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
           },
-          RecruitIndex: {
+          recruitIndex: {
             type: Sequelize.INTEGER,
             allowNull: false,
             references: {
@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
             },
             field: 'recruitIndex',
           },
-          UserIndex: {
+          userIndex: {
             type: Sequelize.INTEGER,
             allowNull: false,
             references: {
@@ -33,14 +33,15 @@ module.exports = (sequelize, Sequelize) => {
 
     static associate(models) {
       this.belongsTo(models.Recruit, {
-        foreignKey: 'RecruitIndex',
+        foreignKey: 'recruitIndex',
         as: 'Recruit',
       })
       this.belongsTo(models.User, {
-        foreignKey: 'UserIndex',
+        foreignKey: 'userIndex',
         as: 'User',
       })
     }
   }
   Member.initialize()
+  return Member
 }

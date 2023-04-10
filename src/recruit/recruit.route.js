@@ -1,28 +1,29 @@
 const express = require('express')
 const router = express.Router()
-
 const { recruitController: Controller } = require('./recruit.module')
 
-// 게시글 insert
-router.post('/write', (req, res, next) =>
-  Controller.postContent(req, res, next)
+/* Get List */
+// 전체게시물
+router.get('/getallrecruit', (req, res, next) =>
+  Controller.getAllRecruit(req, res, next)
+)
+// 특정게시물
+router.get('/getonerecruit/:recruitIndex', (req, res, next) =>
+  Controller.getOneRecruit(req, res, next)
+)
+// Hidden 게시물
+router.get('/gethiddenrecruit/:hidden', (req, res, next) =>
+  Controller.getHiddenRecruit(req, res, next)
+)
+//Platform 게시물
+router.get('/getplatformrecruit/:platformName', (req, res, next) =>
+  Controller.getAllRecruit(req, res, next)
 )
 
-// 플랫폼&플랜 불러오기!!!!
-router.get('/write', (req, res, next) => Controller.getWrite(req, res, next))
-router.post('/write/plan', (req, res, next) =>
-  Controller.postPlan(req, res, next)
+/* Post List */
+// 게시물 등록
+router.post('/createrecruit', (req, res, next) =>
+  Controller.createRecruit(req, res, next)
 )
-
-router.get('/view/:id', (req, res, next) => Controller.getView(req, res, next))
-router.post('/view/:id', (req, res, next) =>
-  Controller.addMember(req, res, next)
-)
-
-router.get('/list', (req, res, next) => Controller.getList(req, res, next))
-
-// router.get('/getinfo', authenticateToken, (req, res, next) =>
-//   Controller.getUserInfo(req, res, next)
-// )
 
 module.exports = router

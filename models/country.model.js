@@ -24,12 +24,11 @@ module.exports = (sequelize, Sequelize) => {
         foreignKey: 'countryIndex',
       })
       this.hasMany(models.Currency, {
+        as: 'Currencies',
         foreignKey: 'countryIndex',
       })
     }
   }
   Country.initialize()
+  return Country
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

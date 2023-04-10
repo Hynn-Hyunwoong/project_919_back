@@ -53,13 +53,11 @@ module.exports = (sequelize, Sequelize) => {
       })
       this.belongsToMany(models.Recruit, {
         through: models.Member,
-        foreignKey: 'UserIndex',
-        otherKey: 'RecruitIndex',
+        foreignKey: 'userIndex',
+        otherKey: 'recruitIndex',
       })
     }
   }
   User.initialize()
+  return User
 }
-
-// Bulk data creation
-// Path: bulkdata/bulkdata.index.js

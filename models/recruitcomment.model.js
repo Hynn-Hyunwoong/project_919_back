@@ -26,4 +26,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   }
   RecruitComment.initialize()
+  return RecruitComment
 }
