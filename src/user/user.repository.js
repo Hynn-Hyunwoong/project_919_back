@@ -146,7 +146,11 @@ class userRepository {
           userId,
         },
       })
-      console.log(userIndex) // 그리고 유저 인덱스 가지고 게시글 찾아서 리턴해주기
+      const result = await this.Recruit.findAll({
+        raw: true,
+        where: { userIndex },
+      })
+      return result
     } catch (e) {
       console.log(`This error occurring in Repository in myPost method: ${e}`)
       throw new Error(e)
@@ -155,6 +159,12 @@ class userRepository {
   // 좋아요 한 게시물 불러오기 => Like
   async myLike(userId) {
     try {
+      const test = [
+        { title: 'like 테스트1' },
+        { title: 'like 테스트2' },
+        { title: 'like 테스트3' },
+      ]
+      return test
     } catch (e) {
       console.log(`This error occurring in Repository in myLike method: ${e}`)
       throw new Error(e)
@@ -163,6 +173,12 @@ class userRepository {
   // 내가 참여한 파티 불러오기 => Member
   async myList(userId) {
     try {
+      const test = [
+        { title: 'member 테스트1' },
+        { title: 'member 테스트2' },
+        { title: 'member 테스트3' },
+      ]
+      return test
     } catch (e) {
       console.log(`This error occurring in Repository in myList method: ${e}`)
       throw new Error(e)
