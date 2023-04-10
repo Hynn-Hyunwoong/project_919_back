@@ -16,4 +16,19 @@ const authenticateToken = (req, res, next) => {
   }
 }
 
+// const authenticateToken = (req, res, next) => {
+//   const authHeader = req.headers.cookie
+//   const token = authHeader && authHeader.split('=')[1]
+//   if (!token) return res.sendStatus(401)
+
+//   try {
+//     const decoded = jwt.Verify(token)
+//     req.user = decoded
+//     next()
+//   } catch (e) {
+//     console.log(`This error occurring in authenticateToken: ${e}`)
+//     res.sendStatus(403)
+//   }
+// }
+
 module.exports = authenticateToken

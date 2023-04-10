@@ -136,17 +136,17 @@ class userService {
     }
   }
   // user 정보 수정
-  async userUpdate({ userId, currentPw, userData, picture }) {
+  async userUpdate({ userId, userData, picture }) {
     try {
-      const user = await this.userRepository.getUserInfo({ userId })
-      const currentPwHash = this.crypto
-        .createHmac('sha256', SALT)
-        .update(currentPw)
-        .digest('hex')
+      // const user = await this.userRepository.getUserInfo({ userId })
+      // const currentPwHash = this.crypto
+      //   .createHmac('sha256', SALT)
+      //   .update(currentPw)
+      //   .digest('hex')
 
-      if (user.userPw !== currentPwHash) {
-        throw new Error('비밀번호가 일치하지 않습니다.')
-      }
+      // if (user.userPw !== currentPwHash) {
+      //   throw new Error('비밀번호가 일치하지 않습니다.')
+      // }
 
       if (userData.newPassword) {
         userData.userPw = this.crypto
@@ -160,13 +160,27 @@ class userService {
       }
 
       const updateUser = await this.userRepository.userUpdate({
-        userId,
+        // userId,
         userData,
       })
       console.log('Sucess userUpdate in userService : ', updateUser)
-      return updateUser, { message: '회원정보가 수정되었습니다.' }
+      return updateUser
+      // message: '회원정보가 수정되었습니다.'
     } catch (e) {
       console.log(`This error occurring in Service in userUpdate method: ${e}`)
+      throw new Error(e)
+    }
+  }
+
+  // 참여한 파티 모두 불러오기
+  async userList(userId) {
+    try {
+      const myLike = await this.userRepository.myLike(userId)
+      const myPost = await this.userRepository.myPost(userId)
+      const myList = await this.userRepository.myList(userId)
+      return { myLike, myPost, myList }
+    } catch (e) {
+      console.log(`This error occurring in Service in userList method: ${e}`)
       throw new Error(e)
     }
   }

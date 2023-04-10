@@ -48,7 +48,7 @@ class userController {
         phoneVerificationCode,
         phoneVerificationExpiry,
       } = req.body
-      const picture = req.file ? req.file.key : null
+      const picture = req.file ? req.file.key : 'project919files/profile.png'
       console.log(
         req.body,
         'this is req.body in tagged on user.controller.userAdd'
@@ -172,14 +172,15 @@ class userController {
   }
   async userUpdate(req, res, next) {
     try {
-      const { userId } = req.user
+      // const { userId } = req.user
       const userData = req.body
-      const picture = req.file ? req.file.key : null
-      const user = await this.userService.getUserInfo({ userId })
+      // const picture = req.file ? req.file.key : retrun
+      const picture = req.file.key
       const updateUser = await this.userService.userUpdate({
-        userId,
-        currentPw: userData.currentPw,
-        userData: { ...userData },
+        // userId,
+        // currentPw: userData.currentPw,
+        // userData: { ...userData },
+        userData,
         picture: picture || user.picture,
       })
       res.status(201).json(updateUser)
@@ -196,6 +197,20 @@ class userController {
       res.clearCookie('token')
       console.log('로그아웃 되었습니다.')
       res.status(200).json({ message: '로그아웃 되었습니다.' })
+    } catch (e) {
+      console.log(
+        `This error occurring in Controller in userLogout method: ${e}`
+      )
+      next(e)
+    }
+  }
+
+  // user 게시물 불러오기
+  async userList(req, res, next) {
+    try {
+      const { userId } = req.user
+      const result = await this.userService.userList(userId)
+      return result
     } catch (e) {
       console.log(
         `This error occurring in Controller in userLogout method: ${e}`

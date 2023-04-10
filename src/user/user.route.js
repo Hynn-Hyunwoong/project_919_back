@@ -14,6 +14,10 @@ router.get('/getprofilepicture', authenticateToken, (req, res, next) =>
 
 router.get('/logout', (req, res, next) => Controller.userLogout(req, res, next))
 
+router.get('/mylist', authenticateToken, (req, res, next) =>
+  Controller.userList(req, res, next)
+)
+
 //post
 router.post('/checkuserId', (req, res, next) =>
   Controller.userIdChecker(req, res, next)
@@ -32,7 +36,7 @@ router.post('/verifytoken', authenticateToken, (req, res, next) =>
 //put
 router.put(
   '/update',
-  authenticateToken,
+  // authenticateToken,
   upload.single('picture'),
   (req, res, next) => Controller.userUpdate(req, res, next)
 )
