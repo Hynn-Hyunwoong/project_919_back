@@ -36,9 +36,11 @@ router.post('/verifytoken', authenticateToken, (req, res, next) =>
 //put
 router.put(
   '/update',
-  // authenticateToken,
+  authenticateToken,
   upload.single('picture'),
-  (req, res, next) => Controller.userUpdate(req, res, next)
+  (req, res, next) => {
+    Controller.userUpdate(req, res, next)
+  }
 )
 
 //delete

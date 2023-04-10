@@ -186,6 +186,11 @@ class userController {
         userData,
         picture,
       })
+      if (updateUser.picture) {
+        const signedUrl = await awsController.getSignedUrl(updateUser.picture)
+        updateUser.signedUrl = signedUrl
+      }
+
       res.status(201).json(updateUser)
     } catch (e) {
       console.log(
@@ -213,7 +218,7 @@ class userController {
     try {
       const { userId } = req.user
       const result = await this.userService.userList(userId)
-      return result
+      res.status(201).json(result)
     } catch (e) {
       console.log(`This error occurring in Controller in userList method: ${e}`)
       next(e)
