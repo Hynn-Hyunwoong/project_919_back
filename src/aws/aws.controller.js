@@ -45,16 +45,13 @@ const downloadFile = async (req, res) => {
 }
 
 // SignedURL, V2
-const getSignedUrl = async (req, res) => {
+const getSignedUrl = async (objectKey) => {
   try {
-    const objectKey = req.query.objectKey
     const signedUrl = await s3Model.createSignedURL(objectKey)
-    // console.log('signedFilename : ', objectKey)
-    // console.log('signedUrl : ', signedUrl)
-    res.status(200).json({ signedUrl })
+    return signedUrl
   } catch (e) {
     console.log(`This Message from getSignedUrl in aws controller: ${e}`)
-    res.status(500).json({ error: e })
+    throw e
   }
 }
 

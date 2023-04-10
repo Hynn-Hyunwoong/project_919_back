@@ -1,5 +1,6 @@
 const { AWSs3 } = require('../aws/aws.model')
 const config = require('../../config').s3
+const awsController = require('../aws/aws.controller')
 
 class userController {
   constructor({ userService }) {
@@ -77,20 +78,19 @@ class userController {
   async userLogin(req, res, next) {
     try {
       const { userId, userPw } = req.body
-      console.log(
-        req.body,
-        'this is req.body in tagged on user.controller.userLogin'
-      )
       const { token, user, e } = await this.userService.userLogin({
         userId,
         userPw,
       })
-      console.log(token, user, 'this is token and user in tagged on userLogin')
-
       if (e) {
         res.status(401).json({ message: '로그인에 실패했습니다.' })
       } else {
-        res.status(201).json({ token, user, message: '로그인에 성공했습니다.' })
+        const signedUrl = user.picture
+          ? await awsController.getSignedUrl(user.picture)
+          : null
+        res
+          .status(201)
+          .json({ token, user, signedUrl, message: '로그인에 성공했습니다.' })
       }
     } catch (e) {
       console.log(
@@ -101,7 +101,6 @@ class userController {
     }
   }
 
-  // Token 검증
   // Token 검증
   async validateToken(req, res, next) {
     try {
@@ -131,6 +130,10 @@ class userController {
     try {
       const { userId } = req.user
       const user = await this.userService.getUserInfo({ userId })
+      if (user.picture) {
+        const signedUrl = await awsController.getSignedUrl(user.picture)
+        user.signedUrl = signedUrl
+      }
       res.status(201).json(user)
     } catch (e) {
       console.log(
@@ -139,13 +142,13 @@ class userController {
       next(e)
     }
   }
-
   async getProfilePicture(req, res, next) {
     try {
       const { userId } = req.user
       const user = await this.userService.getUserInfo({ userId })
-      if (!user.picture) {
-        res.status(404).json({ message: '사진이 없습니다.' })
+      if (user.picture) {
+        const signedUrl = await awsController.getSignedUrl(user.picture)
+        user.signedUrl = signedUrl
       }
 
       const params = {
@@ -162,7 +165,6 @@ class userController {
         }
         res.status(200).json({ url })
       })
-      res.status(201).json(updateUser)
     } catch (e) {
       console.log(
         `This error occurring in Controller in getProfilePicture method: ${e}`
@@ -170,18 +172,19 @@ class userController {
       next(e)
     }
   }
+
   async userUpdate(req, res, next) {
     try {
-      // const { userId } = req.user
+      const { userId } = req.user
       const userData = req.body
-      // const picture = req.file ? req.file.key : retrun
-      const picture = req.file.key
+
+      const user = await this.userService.getUserInfo({ userId })
+      const currentPicture = user.picture
+      const picture = req.file ? req.file.key : currentPicture
+
       const updateUser = await this.userService.userUpdate({
-        // userId,
-        // currentPw: userData.currentPw,
-        // userData: { ...userData },
         userData,
-        picture: picture || user.picture,
+        picture,
       })
       res.status(201).json(updateUser)
     } catch (e) {
