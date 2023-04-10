@@ -19,7 +19,7 @@ const memberData = async () => {
 
     // Check the current number of members for the recruitIndex
     const currentMembers = await Member.findAll({
-      where: { RecruitIndex: recruit.recruitIndex },
+      where: { recruitIndex: recruit.recruitIndex },
     })
 
     console.log(
@@ -29,7 +29,7 @@ const memberData = async () => {
 
     // Exclude users already in the currentMembers
     const availableUsers = users.filter(
-      (user) => !currentMembers.find((cm) => cm.UserIndex === user.userIndex)
+      (user) => !currentMembers.find((cm) => cm.userIndex === user.userIndex)
     )
 
     console.log(
@@ -45,8 +45,8 @@ const memberData = async () => {
 
       if (!membersToCreate.some((m) => m.UserIndex === randomUser.userIndex)) {
         membersToCreate.push({
-          UserIndex: randomUser.userIndex,
-          RecruitIndex: recruit.recruitIndex,
+          userIndex: randomUser.userIndex,
+          recruitIndex: recruit.recruitIndex,
         })
       }
     }
@@ -58,10 +58,10 @@ const memberData = async () => {
 
     if (membersToCreate.length > 0) {
       try {
-        await sequelize.transaction(async (t) => {
+        await sequelize.transaction(async () => {
           const createdMembers = await Member.bulkCreate(membersToCreate, {
             ignoreDuplicates: true,
-            updateOnDuplicate: ['UserIndex', 'RecruitIndex'],
+            updateOnDuplicate: ['userIndex', 'recruitIndex'],
           })
           MemberData.push(...createdMembers.map((m) => m.dataValues))
         })
@@ -73,7 +73,7 @@ const memberData = async () => {
 
   for (const recruit of recruits) {
     const memberCount = await Member.count({
-      where: { RecruitIndex: recruit.recruitIndex },
+      where: { recruitIndex: recruit.recruitIndex },
     })
     console.log(
       `Recruit ${recruit.recruitIndex} final member count:`,
