@@ -3,6 +3,17 @@ class CaculatorService {
     this.CaculatorRepository = caculatorRepository
   }
 
+  async getHolePlatform() {
+    try {
+      const result = await this.CaculatorRepository.getHolePlatform()
+      return result
+    } catch (e) {
+      console.log(`Testing to code catch in Service ${this}`)
+      console.log(`This error occurring in getOttPlanByPlatform.Service: ${e}`)
+      throw new Error(e)
+    }
+  }
+
   async getOttPlanByPlatform(platformName) {
     try {
       console.log(`Testing to code try in Service ${this}`)

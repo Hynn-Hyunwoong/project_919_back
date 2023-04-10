@@ -2,6 +2,17 @@ class CaculatorController {
   constructor({ caculatorService }) {
     this.CaculatorService = caculatorService
   }
+
+  async getHolePlatform(req, res, next) {
+    try {
+      const result = await this.CaculatorService.getHolePlatform()
+      res.status(200).json(result)
+    } catch (e) {
+      console.log(`This error occurring in getHolePlatform.Controller: ${e}`)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
+
   async getOttPlanByPlatform(req, res, next) {
     try {
       console.log(`Testing to code try Controller${this}`)
@@ -18,8 +29,8 @@ class CaculatorController {
       res.status(200).json(response)
     } catch (e) {
       console.log(`Testing to code catch Controller ${this}`)
-      console.log(e)
-      res.status(500).json({ message: 'Internal Server Error' })
+      res.status(500).json({ message: e.message })
+      next(e)
     }
   }
 
