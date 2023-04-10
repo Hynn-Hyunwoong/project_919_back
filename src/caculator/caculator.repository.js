@@ -14,6 +14,20 @@ class CaculatorRepository {
     this.sequelize = sequelize
     this.Sequelize = Sequelize
   }
+  // 맨 처음 랜더! 모든 플랫폼 종류
+  async getHolePlatform() {
+    try {
+      const result = await this.ottPlatform.findAll({
+        raw: true,
+      })
+      console.log(result)
+      return result
+    } catch (e) {
+      console.log(`This error occurring in getHolePlatform.Repository: ${e}`)
+      throw new Error(e)
+    }
+  }
+
   // OttPlatform 선택시 해당 플랫폼 전체 요금제 가져오기
   async getOttPlanByPlatform(platformName) {
     try {
