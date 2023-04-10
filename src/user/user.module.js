@@ -1,6 +1,6 @@
 const {
   sequelize: {
-    models: { User },
+    models: { User, Recruit },
   },
 } = require('../../models')
 
@@ -14,7 +14,12 @@ const crypto = require('crypto')
 
 const jwt = new JWT({ crypto })
 
-const userRepository = new UserRepository({ User, sequelize, Sequelize })
+const userRepository = new UserRepository({
+  User,
+  sequelize,
+  Sequelize,
+  Recruit,
+})
 const userService = new UserService({ userRepository, jwt })
 const userController = new UserController({ userService })
 

@@ -212,9 +212,7 @@ class userController {
       const result = await this.userService.userList(userId)
       return result
     } catch (e) {
-      console.log(
-        `This error occurring in Controller in userLogout method: ${e}`
-      )
+      console.log(`This error occurring in Controller in userList method: ${e}`)
       next(e)
     }
   }

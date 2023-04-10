@@ -1,10 +1,9 @@
-const { where } = require('sequelize')
-
 class userRepository {
-  constructor({ User, sequelize, Sequelize }) {
+  constructor({ User, sequelize, Sequelize, Recruit }) {
     this.User = User
     this.sequelize = sequelize
     this.Sequelize = Sequelize
+    this.Recruit = Recruit
   }
 
   // ID 중복 체크
@@ -137,12 +136,38 @@ class userRepository {
     }
   }
 
-  // 좋아요 한 게시물 불러오기
-  async myLike() {}
   // 내가 쓴 파티글 불러오기
-  async myPost() {}
-  // 내가 참여한 파티 불러오기
-  async myList() {}
+  async myPost(userId) {
+    try {
+      // console.log(userId)
+      const { userIndex } = await this.User.findOne({
+        raw: true,
+        where: {
+          userId,
+        },
+      })
+      console.log(userIndex) // 그리고 유저 인덱스 가지고 게시글 찾아서 리턴해주기
+    } catch (e) {
+      console.log(`This error occurring in Repository in myPost method: ${e}`)
+      throw new Error(e)
+    }
+  }
+  // 좋아요 한 게시물 불러오기 => Like
+  async myLike(userId) {
+    try {
+    } catch (e) {
+      console.log(`This error occurring in Repository in myLike method: ${e}`)
+      throw new Error(e)
+    }
+  }
+  // 내가 참여한 파티 불러오기 => Member
+  async myList(userId) {
+    try {
+    } catch (e) {
+      console.log(`This error occurring in Repository in myList method: ${e}`)
+      throw new Error(e)
+    }
+  }
 }
 
 module.exports = userRepository
