@@ -21,6 +21,7 @@ const recruitData = async () => {
         openChatLink: `https://open.kakao.com/o/sample`,
         startDate: now,
         endDate: new Date(now.getTime() + 1000 * 60 * 60 * 24 * 7),
+        perPrice: 2500,
         userIndex: user.userIndex,
         ottPlanIndex: randomPlan.ottPlanIndex,
       })
