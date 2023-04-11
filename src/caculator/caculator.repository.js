@@ -14,7 +14,8 @@ class CaculatorRepository {
     this.sequelize = sequelize
     this.Sequelize = Sequelize
   }
-  // 맨 처음 랜더! 모든 플랫폼 종류
+
+  // 맨 처음 랜더! 모든 플랫폼 종류 + 환율 가져오기
   async getHolePlatform() {
     try {
       const result = await this.ottPlatform.findAll({
@@ -33,18 +34,18 @@ class CaculatorRepository {
     }
   }
 
-  async getCurrency() {
-    try {
-      const currency = await this.Currency.findAll({
-        raw: true,
-        order: [['currencyDate', 'DESC']],
-      })
-      console.log(currency)
-    } catch (e) {
-      console.log(`This error occurring in getCurrency.Repository: ${e}`)
-      throw new Error(e)
-    }
-  }
+  // async getCurrency() {
+  //   try {
+  //     const currency = await this.Currency.findAll({
+  //       raw: true,
+  //       order: [['currencyDate', 'DESC']],
+  //     })
+  //     console.log(currency)
+  //   } catch (e) {
+  //     console.log(`This error occurring in getCurrency.Repository: ${e}`)
+  //     throw new Error(e)
+  //   }
+  // }
 
   // OttPlatform 선택시 해당 플랫폼 전체 요금제 가져오기
   async getOttPlanByPlatform(platformName) {
