@@ -39,6 +39,31 @@ class RecruitRepository {
           },
         }
       )
+      // 참여 Member 수와 Limit 값 비교하여 자동 Hidden 처리
+      const recruits = await this.Recruit.findAll({
+        include: [
+          {
+            model: this.Member,
+            attributes: ['recruitIndex'],
+            as: 'MemberRelation',
+          },
+          {
+            model: this.ottPlan,
+            attributes: ['limit'],
+          },
+        ],
+        where: {
+          hidden: false,
+        },
+      })
+
+      for (const recruit of recruits) {
+        const memberCount = recruit.MemberRelation.length
+        const ottPlanLimit = recruit.ottPlan.limit
+        if (memberCount >= ottPlanLimit) {
+          await recruit.update({ hidden: true })
+        }
+      }
     } catch (e) {
       console.log(
         `This error occurring recruit.repository.js in updateHiddenStatus method: ${e}`
@@ -46,11 +71,14 @@ class RecruitRepository {
       throw new Error(e)
     }
   }
+
   // 전체 게시물 가져오기
-  async getAllRecruit() {
+  async getAllRecruit(start, limit) {
     try {
       await this.updateHiddenStatus()
       const response = await this.Recruit.findAll({
+        offset: start,
+        limit: limit,
         include: [
           {
             model: this.User,
@@ -136,6 +164,8 @@ class RecruitRepository {
     try {
       await this.updateHiddenStatus()
       const response = await this.Recruit.findOne({
+        offset: start,
+        limit: limit,
         where: { recruitIndex: recruitIndex },
         include: [
           {
@@ -214,7 +244,7 @@ class RecruitRepository {
     }
   }
   // hidden true or false 게시물 가져오기
-  async getHiddenRecruit(hidden) {
+  async getHiddenRecruit(hidden, start, limit) {
     try {
       await this.updateHiddenStatus()
       let where = {}
@@ -226,6 +256,8 @@ class RecruitRepository {
         throw new Error('hidden is not true or false')
       }
       const response = await this.Recruit.findAll({
+        offset: start,
+        limit: limit,
         where: where,
         include: [
           {
@@ -309,7 +341,7 @@ class RecruitRepository {
     }
   }
   // Platform 형식에 맞는 게시물 리스트 출력
-  async getPlatformRecruit(platformName) {
+  async getPlatformRecruit(platformName, start, limit) {
     try {
       await this.updateHiddenStatus()
       const platformRanges = {
@@ -324,6 +356,8 @@ class RecruitRepository {
       const range = platformRanges[platformName]
 
       const response = await this.Recruit.findAll({
+        offset: start,
+        limit: limit,
         include: [
           {
             model: this.User,
@@ -385,6 +419,7 @@ class RecruitRepository {
           ottPlanIndex: {
             [Op.between]: [range[0], range[1]],
           },
+          hidden: false,
         },
       })
       for (const recruit of response) {
@@ -420,6 +455,7 @@ class RecruitRepository {
         endDate,
         ottPlanIndex,
         userIndex,
+        perPrice,
       } = data
       const response = await this.Recruit.create({
         title,
@@ -429,6 +465,11 @@ class RecruitRepository {
         endDate,
         ottPlanIndex,
         userIndex,
+        perPrice,
+      })
+      await this.Member.create({
+        userIndex: userIndex,
+        recruitIndex: response.recruitIndex,
       })
       console.log(`This Processing in the recruit.repository: `, response)
       return response

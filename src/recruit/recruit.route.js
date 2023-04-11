@@ -17,7 +17,7 @@ router.get('/gethiddenrecruit/:hidden', (req, res, next) =>
 )
 //Platform 게시물
 router.get('/getplatformrecruit/:platformName', (req, res, next) =>
-  Controller.getAllRecruit(req, res, next)
+  Controller.getPlatformRecruit(req, res, next)
 )
 
 /* Post List */

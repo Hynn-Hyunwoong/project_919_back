@@ -3,9 +3,9 @@ class RecruitService {
     this.recruitRepository = recruitRepository
   }
   // 전체게시물 정보 가져오기
-  async getAllRecruit() {
+  async getAllRecruit(start, limit) {
     try {
-      const response = await this.recruitRepository.getAllRecruit()
+      const response = await this.recruitRepository.getAllRecruit(start, limit)
       return response
     } catch (e) {
       console.log(e)
@@ -24,9 +24,13 @@ class RecruitService {
     }
   }
   // Hidden 게시물 가져오기
-  async getHiddenRecruit(hidden) {
+  async getHiddenRecruit(hidden, start, limit) {
     try {
-      const response = await this.recruitRepository.getHiddenRecruit(hidden)
+      const response = await this.recruitRepository.getHiddenRecruit(
+        hidden,
+        start,
+        limit
+      )
       return response
     } catch (e) {
       console.log(`this error getHiddenRecruit in Service : `, e)
@@ -34,10 +38,12 @@ class RecruitService {
     }
   }
   // 플랫폼별 게시물 가져오기
-  async getPlatformRecruit(platformName) {
+  async getPlatformRecruit(platformName, start, limit) {
     try {
       const response = await this.recruitRepository.getPlatformRecruit(
-        platformName
+        platformName,
+        start,
+        limit
       )
       console.log(`this code is response in Service : `, response)
       return response
