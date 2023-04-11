@@ -6,6 +6,8 @@ class CaculatorService {
   async getHolePlatform() {
     try {
       const result = await this.CaculatorRepository.getHolePlatform()
+      // const currency = await this.caculatorRepository.getCurrency()
+      console.log(result)
       return result
     } catch (e) {
       console.log(`Testing to code catch in Service ${this}`)

@@ -20,10 +20,28 @@ class CaculatorRepository {
       const result = await this.ottPlatform.findAll({
         raw: true,
       })
-      console.log(result)
-      return result
+      const currency = await this.Currency.findAll({
+        limit: 5,
+        raw: true,
+        order: [['currencyDate', 'DESC']],
+        include: { model: this.Country },
+      })
+      return { result, currency }
     } catch (e) {
       console.log(`This error occurring in getHolePlatform.Repository: ${e}`)
+      throw new Error(e)
+    }
+  }
+
+  async getCurrency() {
+    try {
+      const currency = await this.Currency.findAll({
+        raw: true,
+        order: [['currencyDate', 'DESC']],
+      })
+      console.log(currency)
+    } catch (e) {
+      console.log(`This error occurring in getCurrency.Repository: ${e}`)
       throw new Error(e)
     }
   }
