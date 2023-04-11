@@ -17,7 +17,7 @@ const ottPlanData = async () => {
   const now = new Date()
   const ottPlanData = [
     {
-      planName: 'Youtube 개인(인도네시아)',
+      planName: '개인(인도네시아)',
       // planName: 'YoutubePersonalM',
       price: 59000,
       limit: 1,
@@ -28,7 +28,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('IDR'),
     },
     {
-      planName: 'Youtube 개인(필리핀)',
+      planName: '개인(필리핀)',
       // planName: 'YoutubePersonalM',
       price: 159,
       limit: 1,
@@ -39,7 +39,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('PHP'),
     },
     {
-      planName: 'Youtube 개인(튀르키예)',
+      planName: '개인(튀르키예)',
       // planName: 'YoutubePersonalM',
       price: 29.99,
       limit: 1,
@@ -50,7 +50,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('TRY'),
     },
     {
-      planName: 'Youtube 개인(아르헨티나)',
+      planName: '개인(아르헨티나)',
       // planName: 'YoutubePersonalM',
       price: 389,
       limit: 1,
@@ -61,7 +61,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('ARS'),
     },
     {
-      planName: 'Youtube 개인(인도)',
+      planName: '개인(인도)',
       // planName: 'YoutubePersonalM',
       price: 129,
       limit: 1,
@@ -72,7 +72,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('INR'),
     },
     {
-      planName: 'Youtube 개인(대한민국)',
+      planName: '개인(대한민국)',
       price: 10450,
       limit: 1,
       planType: 'monthly',
@@ -82,7 +82,7 @@ const ottPlanData = async () => {
       countryIndex: await getCountryIndex('KRW'),
     },
     {
-      planName: 'Youtube 패밀리(인도네시아)',
+      planName: '패밀리(인도네시아)',
       // planName: 'YoutubeFamilyM',
       price: 99000,
       limit: 4,
@@ -94,7 +94,7 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'Youtube 패밀리(필리핀)',
+      planName: '패밀리(필리핀)',
       // planName: 'YoutubeFamilyM',
       price: 239,
       limit: 4,
@@ -107,7 +107,7 @@ const ottPlanData = async () => {
 
     {
       // planName: 'YoutubeFamilyM',
-      planName: 'Youtube 패밀리(튀르키예)',
+      planName: '패밀리(튀르키예)',
       price: 59.99,
       limit: 4,
       planType: 'monthly',
@@ -118,7 +118,7 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'Youtube 패밀리(아르헨티나)',
+      planName: '패밀리(아르헨티나)',
       // planName: 'YoutubeFamilyM',
       price: 699,
       limit: 4,
@@ -130,7 +130,7 @@ const ottPlanData = async () => {
     },
 
     {
-      planName: 'Youtube 패밀리(인도)',
+      planName: '패밀리(인도)',
       // planName: 'YoutubeFamilyM',
       price: 189,
       limit: 4,

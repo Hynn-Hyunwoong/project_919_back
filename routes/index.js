@@ -7,6 +7,7 @@ const sms = require('../src/api/naver/sens.route')
 const authRoutes = require('../src/auth/auth.sns.route')
 const like = require('../src/like/like.route')
 const caculator = require('../src/caculator/caculator.route')
+const search = require('../src/search/search.route')
 
 router.use('/user', user)
 router.use('/aws', aws)
@@ -15,5 +16,6 @@ router.use('/api', sms)
 router.use('/like', like)
 router.use(authRoutes)
 router.use('/cacul', caculator)
+router.use('/search', search)
 
 module.exports = router
