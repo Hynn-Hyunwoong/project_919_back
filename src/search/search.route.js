@@ -6,9 +6,9 @@ const { searchController: Controller } = require('./search.module')
 // router.get('/getallrecruit', (req, res, next) =>
 //   Controller.getAllRecruit(req, res, next)
 // )
-router.get('/:id', (req, res, next) => {
-  console.log(req.params)
-  res.json(req.params)
-})
+router.get('/:id', (req, res, next) =>
+  // console.log(req.params) // {id:"검색내용"}
+  Controller.getResult(req, res, next)
+)
 
 module.exports = router

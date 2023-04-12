@@ -12,6 +12,16 @@ class SearchService {
   //     throw new Error(e)
   //   }
   // }
+
+  async getResult(keyword) {
+    try {
+      const result = await this.searchRepository.getResult(keyword)
+      return result
+    } catch (e) {
+      console.log(e)
+      throw new Error(e)
+    }
+  }
 }
 
 module.exports = SearchService
