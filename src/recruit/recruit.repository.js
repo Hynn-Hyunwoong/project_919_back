@@ -164,8 +164,6 @@ class RecruitRepository {
     try {
       await this.updateHiddenStatus()
       const response = await this.Recruit.findOne({
-        offset: start,
-        limit: limit,
         where: { recruitIndex: recruitIndex },
         include: [
           {
@@ -181,6 +179,7 @@ class RecruitRepository {
             attributes: [
               'planName',
               'price',
+              'limit',
               'countryIndex',
               [
                 this.sequelize.literal(
@@ -446,7 +445,6 @@ class RecruitRepository {
   // 게시물 작성하기
   async createRecruit(data) {
     try {
-      await this.updateHiddenStatus()
       const {
         title,
         content,
@@ -457,6 +455,7 @@ class RecruitRepository {
         userIndex,
         perPrice,
       } = data
+      console.log('userIndex:', data)
       const response = await this.Recruit.create({
         title,
         content,
@@ -467,6 +466,8 @@ class RecruitRepository {
         userIndex,
         perPrice,
       })
+      console.log('userIndex2:', userIndex)
+
       await this.Member.create({
         userIndex: userIndex,
         recruitIndex: response.recruitIndex,
@@ -476,6 +477,46 @@ class RecruitRepository {
     } catch (e) {
       console.log(
         `This error occurring recruit.repository.js in createRecruit method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+  async joinMember(data) {
+    try {
+      const { userIndex, recruitIndex } = data
+      const existingMember = await this.Member.findOne({
+        where: { userIndex, recruitIndex },
+      })
+      if (existingMember) {
+        await this.Member.destroy({
+          where: { userIndex, recruitIndex },
+        })
+        return { message: 'Member removed' }
+      } else {
+        const response = await this.Member.create({
+          userIndex,
+          recruitIndex,
+        })
+        return response
+      }
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in joinMember method: ${e}`
+      )
+      throw new Error(e)
+    }
+  }
+
+  async checkMember(data) {
+    try {
+      const { userIndex } = data
+      const response = await this.Member.findAll({
+        where: { userIndex },
+      })
+      return response
+    } catch (e) {
+      console.log(
+        `This error occurring recruit.repository.js in checkMember method: ${e}`
       )
       throw new Error(e)
     }

@@ -64,6 +64,32 @@ class RecruitService {
       throw new Error(e)
     }
   }
+
+  async joinMember(recruitIndex, userIndex) {
+    try {
+      const response = await this.recruitRepository.joinMember({
+        recruitIndex,
+        userIndex,
+      })
+      return response
+    } catch (e) {
+      console.log(`this error joinMember in Service : `, e)
+      throw new Error(e)
+    }
+  }
+
+  async checkMember({ userIndex }) {
+    try {
+      const response = await this.recruitRepository.checkMember({
+        userIndex,
+      })
+      console.log(`test console.log in checkMember in Service: `, response)
+      return response
+    } catch (e) {
+      console.log(`this error checkMember in Service : `, e)
+      throw new Error(e)
+    }
+  }
 }
 
 module.exports = RecruitService

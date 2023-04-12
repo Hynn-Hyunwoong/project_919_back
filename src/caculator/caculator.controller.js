@@ -3,6 +3,16 @@ class CaculatorController {
     this.CaculatorService = caculatorService
   }
 
+  async getAllPlatform(req, res, next) {
+    try {
+      const result = await this.CaculatorService.getAllPlatform()
+      res.status(200).json(result)
+    } catch (e) {
+      console.log(`This error occurring in getAllPlatform.Controller: ${e}`)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
+
   async getHolePlatform(req, res, next) {
     try {
       const result = await this.CaculatorService.getHolePlatform()
