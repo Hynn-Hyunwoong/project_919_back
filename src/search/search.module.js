@@ -1,6 +1,6 @@
 const {
   sequelize: {
-    models: { Recruit, User },
+    models: { Recruit, User, ottPlatform, ottPlan },
   },
 } = require('../../models')
 
@@ -13,6 +13,8 @@ const SearchController = require('./search.controller')
 const searchRepository = new SearchRepository({
   Recruit,
   User,
+  ottPlatform,
+  ottPlan,
   sequelize,
   Sequelize,
 })
