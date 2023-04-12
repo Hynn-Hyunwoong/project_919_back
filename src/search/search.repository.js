@@ -2,26 +2,16 @@ const sequelize = require('sequelize')
 const Op = sequelize.Op
 
 class SearchRepository {
-  constructor({ Recruit, User, sequelize, Sequelize }) {
+  constructor({ Recruit, User, sequelize, Sequelize, ottPlatform, ottPlan }) {
     this.Recruit = Recruit
     this.User = User
     this.sequelize = sequelize
     this.Sequelize = Sequelize
+    this.ottPlatform = ottPlatform
+    this.ottPlan = ottPlan
   }
-  // endDate 기준으로 hidden 처리
-  // async updateHiddenStatus() {
-  //   try {
-  //     await this.Recruit.update()
-  //   } catch (e) {
-  //     console.log(
-  //       `This error occurring recruit.repository.js in updateHiddenStatus method: ${e}`
-  //     )
-  //     throw new Error(e)
-  //   }
-  // }
 
   async getResult(keyword) {
-    console.log(Op)
     try {
       const result = await this.Recruit.findAll({
         raw: true,
@@ -40,6 +30,27 @@ class SearchRepository {
             },
           ],
         },
+        include: [
+          {
+            model: this.User,
+            attributes: ['userNick'],
+            required: true,
+          },
+          {
+            model: this.ottPlan,
+            attributes: [
+              'planName',
+              'ottPlatformIndex',
+              [
+                this.sequelize.literal(
+                  `(SELECT ottPlatforms.Image FROM ottPlatform AS ottPlatforms WHERE ottPlatforms.ottPlatformIndex = ottPlan.ottPlatformIndex)`
+                ),
+                'platformImage',
+              ],
+            ],
+            // include: [{ model: this.ottPlatform }],
+          },
+        ],
       })
       console.log(result)
       return result
