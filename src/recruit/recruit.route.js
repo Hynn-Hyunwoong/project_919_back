@@ -20,10 +20,18 @@ router.get('/getplatformrecruit/:platformName', (req, res, next) =>
   Controller.getPlatformRecruit(req, res, next)
 )
 
+router.get('/checkmember/:userIndex', (req, res, next) =>
+  Controller.checkMember(req, res, next)
+)
+
 /* Post List */
 // 게시물 등록
 router.post('/createrecruit', (req, res, next) =>
   Controller.createRecruit(req, res, next)
+)
+
+router.post('/joinmember', (req, res, next) =>
+  Controller.joinMember(req, res, next)
 )
 
 module.exports = router

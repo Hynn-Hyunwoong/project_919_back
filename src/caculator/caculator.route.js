@@ -6,6 +6,11 @@ const { caculatorController: Controller } = require('./caculator.module')
 router.get('/getHoleInfo', (req, res, next) =>
   Controller.getHolePlatform(req, res, next)
 )
+
+router.get('/getPlatform', (req, res, next) =>
+  Controller.getAllPlatform(req, res, next)
+)
+
 router.get(
   '/gettype/:platformName',
   (req, res, next) => Controller.getOttPlanByPlatform(req, res, next)

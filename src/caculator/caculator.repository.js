@@ -14,6 +14,18 @@ class CaculatorRepository {
     this.sequelize = sequelize
     this.Sequelize = Sequelize
   }
+  // OttPlatform 전체 가져오기
+  async getAllPlatform() {
+    try {
+      const result = await this.ottPlatform.findAll({
+        raw: true,
+      })
+      return result
+    } catch (e) {
+      console.log(`This error occurring in getAllPlatform.Repository: ${e}`)
+      throw new Error(e)
+    }
+  }
 
   // 맨 처음 랜더! 모든 플랫폼 종류 + 환율 가져오기
   async getHolePlatform() {

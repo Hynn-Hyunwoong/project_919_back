@@ -64,7 +64,34 @@ class RecruitController {
   async createRecruit(req, res, next) {
     try {
       const data = req.body
+      console.log(`this code is data in Controller : `, data)
       const response = await this.recruitService.createRecruit(data)
+      console.log(`this code is response in Controller : `, response)
+      res.status(200).json(response)
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
+  async joinMember(req, res, next) {
+    try {
+      const { userIndex, recruitIndex } = req.body
+      const response = await this.recruitService.joinMember(
+        recruitIndex,
+        userIndex
+      )
+      res.status(200).json(response)
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
+
+  async checkMember(req, res, next) {
+    try {
+      const { userIndex } = req.params
+      console.log(`test controller : `, req.params)
+      const response = await this.recruitService.checkMember({ userIndex })
       res.status(200).json(response)
     } catch (e) {
       console.log(e)

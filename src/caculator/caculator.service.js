@@ -3,6 +3,16 @@ class CaculatorService {
     this.CaculatorRepository = caculatorRepository
   }
 
+  async getAllPlatform() {
+    try {
+      const result = await this.CaculatorRepository.getAllPlatform()
+      return result
+    } catch (e) {
+      console.log(`This error occurring in getAllPlatform.Service: ${e}`)
+      throw new Error(e)
+    }
+  }
+
   async getHolePlatform() {
     try {
       const result = await this.CaculatorRepository.getHolePlatform()
