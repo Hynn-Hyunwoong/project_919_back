@@ -90,6 +90,15 @@ class RecruitService {
       throw new Error(e)
     }
   }
+  async updateRecruit(data) {
+    try {
+      const response = await this.recruitRepository.updateRecruit(data)
+      return response
+    } catch (e) {
+      console.log(`this error updateRecruit in Service : `, e)
+      throw new Error(e)
+    }
+  }
 }
 
 module.exports = RecruitService

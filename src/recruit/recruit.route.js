@@ -34,4 +34,10 @@ router.post('/joinmember', (req, res, next) =>
   Controller.joinMember(req, res, next)
 )
 
+/* Put */
+// 게시물 수정
+router.put('/updatepost/:postIndex', (req, res, next) =>
+  Controller.updateRecruit(req, res, next)
+)
+
 module.exports = router

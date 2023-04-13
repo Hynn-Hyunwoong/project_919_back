@@ -521,6 +521,40 @@ class RecruitRepository {
       throw new Error(e)
     }
   }
+  // 게시물 수정
+  async updateRecruit(data) {
+    try {
+      const {
+        title,
+        content,
+        openChatLink,
+        startDate,
+        endDate,
+        ottPlanIndex,
+        recruitIndex,
+      } = data
+      const response = await this.Recruit.update(
+        {
+          title,
+          content,
+          openChatLink,
+          startDate,
+          endDate,
+          ottPlanIndex,
+        },
+        {
+          where: { recruitIndex },
+        }
+      )
+      console.log(`This Processing in the recruit.repository: `, response)
+      return response
+    } catch (e) {
+      {
+        console.log(`This Error in the recruit.repository: ${e}`)
+        throw new Error(e)
+      }
+    }
+  }
 }
 
 module.exports = RecruitRepository

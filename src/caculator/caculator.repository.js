@@ -112,6 +112,25 @@ class CaculatorRepository {
       throw new Error(e)
     }
   }
+
+  // 게시물 수정
+  async updatePost(postIndex, postTitle, postContent) {
+    try {
+      const result = await this.Post.update(
+        {
+          postTitle,
+          postContent,
+        },
+        {
+          where: { postIndex },
+        }
+      )
+      return result
+    } catch (e) {
+      console.log(`This error occurring in updatePost.Repository: ${e}`)
+      throw new Error(e)
+    }
+  }
 }
 
 module.exports = CaculatorRepository
