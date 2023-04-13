@@ -98,6 +98,20 @@ class RecruitController {
       res.status(500).json({ message: 'Internal Server Error' })
     }
   }
+  async updateRecruit(req, res, next) {
+    try {
+      const { recruitIndex } = req.params
+      const data = req.body
+      const response = await this.recruitService.updateRecruit(
+        recruitIndex,
+        data
+      )
+      res.status(200).json(response)
+    } catch (e) {
+      console.log(e)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
 }
 
 module.exports = RecruitController
