@@ -23,7 +23,11 @@ router.get('/auth/naver/callback', async (req, res, next) => {
     const token = jwt.Sign({ userId: user.userId }, String(SALT), {
       expiresIn: '1h',
     })
-    res.cookie('token', token, { httpOnly: true, secure: true })
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    })
     res.redirect(`${redirectPath}?token=${token}`)
   })(req, res, next)
 })
@@ -40,7 +44,11 @@ router.get('/auth/kakao/callback', async (req, res, next) => {
     const token = jwt.Sign({ userId: user.userId }, String(SALT), {
       expiresIn: '1h',
     })
-    res.cookie('token', token, { httpOnly: true, secure: true })
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    })
     res.redirect(`${redirectPath}?token=${token}`)
   })(req, res, next)
 })
